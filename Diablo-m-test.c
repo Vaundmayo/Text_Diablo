@@ -23,6 +23,7 @@ int my_random(int n);
 // Windows 전용 함수 대체
 void clrscr() {
   printf("\033[2J\033[1;1H");
+  fflush(stdout);
 }
 
 void textcolor(int color) {
@@ -31,6 +32,7 @@ void textcolor(int color) {
 
 void gotoxy(int x, int y) {
   printf("\033[%d;%dH", y, x);
+  fflush(stdout);
 }
 
 void delay(int ms) {
@@ -169,7 +171,10 @@ int main() {
 	}
   if(a==1) Opening(); 
   if(a==2) Load(); 
-  if(a==3) exit(0);
+  if(a==3) {
+    clrscr();
+    exit(0);
+  }
   Insert_magic(); 
   Insert_weapon();
   Insert_defence();
@@ -209,7 +214,7 @@ void Play_1() {
   if(user.defence>20) {
     user.defence=20;printf("디펜스가 20이상이 되면 자동으로 디펜스가 하락됩니다.");getch();clrscr();
   }
-  printf("     ━━━━━━━━━ Camp ━━━━━━━━\n\n");
+  printf("━━━━━━━━━━━━━━━━━━━━━━ Camp ━━━━━━━━━━━━━━━━━━━━━━\n\n");
   printf("                    1. Condition                  \n");
   printf("                    2. Item Store                 \n");
   printf("                    3. Weapon Store               \n");
@@ -222,7 +227,7 @@ void Play_1() {
   if( q==2) Item_store();
   if( q==4) Defence_Store();
   if( q==6) Save_option();
-  if( q==7) exit(0);
+  if( q==7) {clrscr(); exit(0);}
   if( q==1) Condition();
   if( q==3) Weapon_Store();
   if( q==5) Battle();
@@ -269,16 +274,16 @@ void Battle() {
     char data;
     textcolor(15);
     clrscr();
-    printf("  ┏━━━━━┳━━━━━┳━━━━━┳━━━━━┓\n");
+    printf("  ┏━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━┓\n");
     printf("  ┃  A C T 1 ┃  A C T 2 ┃  A C T 3 ┃  A C T 4 ┃\n");
-    printf("  ┣━━━━━╋━━━━━╋━━━━━╋━━━━━┫\n");
+    printf("  ┣━━━━━━━━━━╋━━━━━━━━━━╋━━━━━━━━━━╋━━━━━━━━━━┫\n");
     printf("  ┃1. Quest 1┃7. Quest 1┃13.Quest 1┃19.Quest 1┃\n");
     printf("  ┃2. Quest 2┃8. Quest 2┃14.Quest 2┃20.Quest 2┃\n");
     printf("  ┃3. Quest 3┃9. Quest 3┃15.Quest 3┃21.Quest 3┃\n");
     printf("  ┃4. Quest 4┃10 Quest 4┃16.Quest 4┃0. Exit   ┃\n");
     printf("  ┃5. Quest 5┃11 Quest 5┃17.Quest 5┃          ┃\n");
     printf("  ┃6. Quest 6┃12 Quest 6┃18.Quest 6┃          ┃\n");
-    printf("  ┗━━━━━┻━━━━━┻━━━━━┻━━━━━┛\n");
+    printf("  ┗━━━━━━━━━━┻━━━━━━━━━━┻━━━━━━━━━━┻━━━━━━━━━━┛\n");
 
     printf("Select Quest Number(1~%2d):",user.wh);
     gotoxy(27,11);scanf("%d",&l);
@@ -349,7 +354,7 @@ void Battle() {
 void Potion() {
   int l;
   printf("\n    M    E    N    U          YOURS ");
-  printf("\n━━━━━━━━━━━━━━━━━━━━━");
+  printf("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
   printf("\n  1.Light Healing Potion     [ %3d ]",user.item[0]);
   printf("\n  2.Light Mana Potion        [ %3d ]",user.item[1]);
   printf("\n  3.Super Healing Potion     [ %3d ]",user.item[2]);
@@ -359,7 +364,7 @@ void Potion() {
   printf("\n  7.Full Helating Potion     [ %3d ]",user.item[6]);
   printf("\n  8.Full Mana Potion         [ %3d ]",user.item[7]);
   printf("\n  9.OUT  		         ");
-  printf("\n━━━━━━━━━━━━━━━━━━━━━");
+  printf("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
   printf("\nWhat you eat? :  ");
   scanf("%d",&l);
   if(l==9) set();
@@ -389,11 +394,11 @@ void Weapon_Store() {
   while(1) {
     clrscr();
     printf("             M    E    N    U     POWER  BONUS-HP  BONUS-MP   G O L D\n");
-  printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+    printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
     for(i=0;i<count1;i++)
   	printf("%d.%30s     [%4d]  [%4d]  [%4d]   [%4d]\n",i+1,weapon[i].name,weapon[i].power,weapon[i].hp_bonus,weapon[i].mp_bonus,weapon[i].cost);
     printf("%d.Out\n",count1+1);
-  printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     printf("\nWhat do you Need? :    GOLD: %5d",user.gold);
     gotoxy(20,5+count1);scanf("%d",&l);
     if(l < 1 || l> count1+1 ) continue;
@@ -420,11 +425,11 @@ void Defence_Store() {
   while(1) {
     clrscr();
     printf("             M    E    N    U    DEFENCE BONUS-HP  BONUS-MP   G O L D\n");
-    printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+    printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     for(i=0;i<count2;i++)
   	printf("%d.%30s     [%4d]  [%4d]  [%4d]   [%4d]\n",i+1,defence[i].name,defence[i].defence,defence[i].hp,defence[i].mp,defence[i].cost);
     printf("%d.Out\n",count2+1);
-    printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     printf("\n*디펜스는 20 까지로 제한됩니다.");
     printf("\nWhat do you Need? :    GOLD: %5d",user.gold);
     gotoxy(20,6+count2);scanf("%d",&l);
@@ -454,7 +459,7 @@ void Item_store()  {
   while(1)  {
     clrscr();
     printf("\n    M    E    N    U       GOLD      YOURS ");
-    printf("\n━━━━━━━━━━━━━━━━━━━━━━");
+    printf("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     printf("\n  1.Light Healing Potion   [ 50 ]    [ %3d ]",user.item[0]);
     printf("\n  2.Light Mana Potion      [ 50 ]    [ %3d ]",user.item[1]);
     printf("\n  3.Super Healing Potion   [ 100]    [ %3d ]",user.item[2]);
@@ -464,7 +469,7 @@ void Item_store()  {
     printf("\n  7.Full Helating Potion   [1000]    [ %3d ]",user.item[6]);
     printf("\n  8.Full Mana Potion       [1000]    [ %3d ]",user.item[7]);
     printf("\n  9.OUT  		         ");
-    printf("\n━━━━━━━━━━━━━━━━━━━━━━");
+    printf("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     printf("\nWhat do you Need? :    GOLD: %5d",user.gold);
     gotoxy(20,14);scanf("%d",&l);
     if(l <= 0 || l>= 10 ) continue;
@@ -515,7 +520,7 @@ void Condition() {
   int i;
   clrscr();
   textcolor(15);
-  printf("\n");
+  printf("\n\n");
   printf("          N   a  m   e: %s\n",user.name);
   printf("          L e  v  e  l: %d\n",user.lv);
   printf("          H          P: %d/%d\n",user.nhp,user.hp);
@@ -526,7 +531,7 @@ void Condition() {
   printf("          G   O  L   D: %d \n",user.gold);
   textcolor(15);
   printf("     Can Private Magic: \n ");
-  printf("\n━━━━━━━━━━━━┳━━━━━━━┳━━━━━┳━━━━━━━");
+  printf("\n━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━");
   textcolor(15);
   for(i=0;i<8;i++)  {
   	if(magic[i].lv <= user.lv)  {
@@ -534,7 +539,7 @@ void Condition() {
     }
   }
   textcolor(15);
-  printf("\n━━━━━━━━━━━━┻━━━━━━━┻━━━━━┻━━━━━━━");
+  printf("\n━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━┻━━━━━━━━━━┻━━━━━━━━━━━━");
   printf("\n\n\n  < E N T E R >");
   getch();
   return;
@@ -611,8 +616,10 @@ void Opening() {
   clrscr();
   while(fscanf(fp0,"%c",&data) != EOF)  {
   	printf("%c",data);
-  	delay(50);
+  	delay(30);
   }
+  getch();
+  printf("Press Enter to Continue...");
   getch();
 
 	clrscr();
@@ -711,21 +718,22 @@ void set() {
     	exit(1);
   	}
     textcolor(15);
-    gotoxy(1,1);printf("                               ┏━━━━━━━━━━━━━━━━━━━━━┓");
-    gotoxy(1,2);printf("   1.Melee Attack              ┃   Name: %12s       %10s    ┃",user.name,monster.name);
-    gotoxy(1,3);printf("   2.Magic                     ┃   Lev :   %3d              %3d           ┃",user.lv,monster.lv);
-    gotoxy(1,4);printf("   3.Eat potion                ┃   H  P: %4d/%4d        %4d/%4d       ┃",user.nhp,user.hp,monster.nhp,monster.hp);
-    gotoxy(1,5);printf("   4.Run Away                  ┃   M  P: %4d/%4d        %4d/%4d       ┃",user.nmp,user.mp,monster.nmp,monster.mp);
-    gotoxy(1,6);printf("                               ┃   Att : %4d~%4d        %4d~%4d       ┃",user.attack-2,user.attack+2,monster.attack-2,monster.attack+2);
-    gotoxy(1,7);printf("                               ┃   Def :  %4d             %4d           ┃",user.defence,monster.defence);
-    gotoxy(1,8);printf("                               ┃   EXP :  %5d           %5d           ┃",user.exp,monster.exp);
-    gotoxy(1,9);printf("                               ┃   Gold:                  %5d           ┃",monster.gold);
-    gotoxy(1,10);printf("                               ┗━━━━━━━━━━━━━━━━━━━━━┛  ");
-    gotoxy(30,11);printf("Leave Monster: %d",l_m);
-    gotoxy(1,11);printf("Battle Order(1~4): ");scanf("%d",&input);
+
+    gotoxy(1,2);printf("                               ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+    gotoxy(1,3);printf("   1.Melee Attack              ┃   Name: %12s       %10s    ┃",user.name,monster.name);
+    gotoxy(1,4);printf("   2.Magic                     ┃   Lev :   %3d              %3d           ┃",user.lv,monster.lv);
+    gotoxy(1,5);printf("   3.Eat potion                ┃   H  P: %4d/%4d        %4d/%4d       ┃",user.nhp,user.hp,monster.nhp,monster.hp);
+    gotoxy(1,6);printf("   4.Run Away                  ┃   M  P: %4d/%4d        %4d/%4d       ┃",user.nmp,user.mp,monster.nmp,monster.mp);
+    gotoxy(1,7);printf("                               ┃   Att : %4d~%4d        %4d~%4d       ┃",user.attack-2,user.attack+2,monster.attack-2,monster.attack+2);
+    gotoxy(1,8);printf("                               ┃   Def :  %4d             %4d           ┃",user.defence,monster.defence);
+    gotoxy(1,9);printf("                               ┃   EXP :  %5d           %5d           ┃",user.exp,monster.exp);
+    gotoxy(1,10);printf("                               ┃   Gold:                  %5d           ┃",monster.gold);
+    gotoxy(1,11);printf("                               ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛  ");
+    gotoxy(30,12);printf("Leave Monster: %d",l_m);
+    gotoxy(1,12);printf("Battle Order(1~4): ");scanf("%d",&input);
     if(input<1 || input>4) continue;
     switch(input) 
-    {
+    { 
       case 1: M_A(); break;
       case 2: Mg(); break;
       case 3: Potion(); break;
@@ -1086,14 +1094,14 @@ void M_A()  {
   if(ud<0) ud=0;
   cr=my_random(40);
   if(cr==3) {
-  gotoxy(10,13);printf("풀 파워~! 크리티컬 어택 %d만큼의 데미지!",ud*3);
+  gotoxy(10,14);printf("풀 파워~! 크리티컬 어택 %d만큼의 데미지!",ud*3);
   monster.nhp=monster.nhp-(ud*3);
   getch();
   } else {
 	  if(ud==0) {
-      gotoxy(10,13);printf(" ~~ ㅋㅋ..");
+      gotoxy(10,14);printf(" ~~ ㅋㅋ..");
     } else {
-	    gotoxy(10,13);printf("당신은 %s에게 물리적인 힘으로 %d만큼의 충격을 가합니다....",monster.name,ud);
+	    gotoxy(10,14);printf("당신은 %s에게 물리적인 힘으로 %d만큼의 충격을 가합니다....",monster.name,ud);
       monster.nhp-=ud;
 	  }
   }
@@ -1126,14 +1134,14 @@ void h_m() {
 
 void Mg()  {
   int bonus,w,in,i,xx,s=0;
-  gotoxy(1,13);printf("     Can Private Magic: \n ");
-  printf("\n━━━━━━━━━━━━┳━━━━━━━┳━━━━━┳━━━━━━━");
+  gotoxy(1,14);printf("     Can Private Magic: \n ");
+  printf("\n━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━");
   for(i=0;i<8;i++)  {
-	  if(magic[i].lv <= user.lv)  {
-	    printf("\n%2d.NAME: %12s   ┃ Damage: %3d  ┃ Mp: %3d  ┃  Level: %3d",s+1,magic[i].name,magic[i].power,magic[i].ump,magic[i].lv);s++;
+      if(magic[i].lv <= user.lv)  {
+        printf("\n%2d.NAME: %12s   ┃ Damage: %3d  ┃ Mp: %3d  ┃  Level: %3d",s+1,magic[i].name,magic[i].power,magic[i].ump,magic[i].lv);s++;
     }
   }
-	printf("\n━━━━━━━━━━━━┻━━━━━━━┻━━━━━┻━━━━━━━");
+    printf("\n━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━┻━━━━━━━━━━┻━━━━━━━━━━━━");
   xx:
   printf("\n0.Cancel ,Magic Order(1~%d):",s);
   scanf(" %d",&in);
@@ -1163,6 +1171,3 @@ void Mg()  {
   if(monster.nhp>0) h_m();
   return;
 }
-
-
-
