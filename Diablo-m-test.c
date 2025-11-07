@@ -204,35 +204,36 @@ void Insert_defence() {
 
 void Play_1() { 
   int i,q;
-  clrscr();
-  user.nhp=user.hp;
-  user.nmp=user.mp;
-  for(i=0;i<8;i++)
-	if(user.item[i]>20) {
-    user.item[i]=20;printf("%d번 포션의 수량이 20개 이상이 되어서 자동으로 소모됩니다",i+1);getch();clrscr(); 
+  while(1){
+    clrscr();
+    user.nhp=user.hp;
+    user.nmp=user.mp;
+    for(i=0;i<8;i++)
+	  if(user.item[i]>20) {
+      user.item[i]=20;printf("%d번 포션의 수량이 20개 이상이 되어서 자동으로 소모됩니다",i+1);getch();clrscr(); 
+    }
+    if(user.defence>20) {
+      user.defence=20;printf("디펜스가 20이상이 되면 자동으로 디펜스가 하락됩니다.");getch();clrscr();
+    }
+    printf("━━━━━━━━━━━━━━━━━━━━━━ Camp ━━━━━━━━━━━━━━━━━━━━━━\n\n");
+    printf("                    1. Condition                  \n");
+    printf("                    2. Item Store                 \n");
+    printf("                    3. Weapon Store               \n");
+    printf("                    4. Armor Store                \n");
+    printf("                    5. Battle Quest               \n");
+    printf("                    6. Save                       \n");
+    printf("                    7. Exit                       \n");
+    printf("   Please Insert Number:                          \n");
+    gotoxy(26,10);scanf("%d",&q);
+    if( q==2) Item_store();
+    if( q==4) Defence_Store();
+    if( q==6) Save_option();
+    if( q==7) {clrscr(); exit(0);}
+    if( q==1) Condition();
+    if( q==3) Weapon_Store();
+    if( q==5) Battle();
+    if( q==1008) cheatcenter();
   }
-  if(user.defence>20) {
-    user.defence=20;printf("디펜스가 20이상이 되면 자동으로 디펜스가 하락됩니다.");getch();clrscr();
-  }
-  printf("━━━━━━━━━━━━━━━━━━━━━━ Camp ━━━━━━━━━━━━━━━━━━━━━━\n\n");
-  printf("                    1. Condition                  \n");
-  printf("                    2. Item Store                 \n");
-  printf("                    3. Weapon Store               \n");
-  printf("                    4. Armor Store                \n");
-  printf("                    5. Battle Quest               \n");
-  printf("                    6. Save                       \n");
-  printf("                    7. Exit                       \n");
-  printf("   Please Insert Number:                          \n");
-  gotoxy(26,10);scanf("%d",&q);
-  if( q==2) Item_store();
-  if( q==4) Defence_Store();
-  if( q==6) Save_option();
-  if( q==7) {clrscr(); exit(0);}
-  if( q==1) Condition();
-  if( q==3) Weapon_Store();
-  if( q==5) Battle();
-  if( q==1008) cheatcenter();
-  Play_1();
   return;
 }
 
@@ -266,11 +267,10 @@ return;
 }
 
 void Battle() {
-  int i,j,k,l,time;
+  int l,time;
   FILE *fp24;
   while(1)
   {
-    int i;
     char data;
     textcolor(15);
     clrscr();
@@ -390,7 +390,7 @@ void Potion() {
  }
 
 void Weapon_Store() {
-  int i,j,k,l;
+  int i,l;
   while(1) {
     clrscr();
     printf("             M    E    N    U     POWER  BONUS-HP  BONUS-MP   G O L D\n");
@@ -421,7 +421,7 @@ void Weapon_Store() {
 }
 
 void Defence_Store() {
-  int i,j,k,l;
+  int i,l;
   while(1) {
     clrscr();
     printf("             M    E    N    U    DEFENCE BONUS-HP  BONUS-MP   G O L D\n");
@@ -455,7 +455,7 @@ void Defence_Store() {
   
 void Item_store()  {
   int cost[8]={50,50,100,100,500,500,1000,1000};
-  int i,j,k,l;
+  int l;
   while(1)  {
     clrscr();
     printf("\n    M    E    N    U       GOLD      YOURS ");
@@ -558,7 +558,6 @@ void Insert_magic()  {
 }
 
 void Load() {
-  char d[100];
   char name[30];
   int code,lv,cs,nmp,defence,gold,mp,nhp,hp,exp,attack,wh;
   FILE *fp1;
@@ -680,7 +679,7 @@ void Opening() {
 
 void set() {
 
-  int re,input;
+  int input;
   randomize();
   while(1)  {
     clrscr();
@@ -749,7 +748,7 @@ void  Q1_1()  {
   }
 	clrscr();
 	monster.lv=1;
-	l_m=29;
+	l_m=30;
 	for(i=0;i<10;i++) {
 		strcpy(monster.name,"Skel_Hasu");
 		monster.nhp=monster.hp=my_random(7)+10;
@@ -796,7 +795,7 @@ void  Q1_1()  {
 }
 
 void Q1_2() {
-  l_m=1;
+  l_m=2;
   monster.lv=3;
   monster.mp=monster.nmp=monster.mp=monster.nhp=monster.hp=my_random(10)+150;
   strcpy(monster.name,"Iron_Fish");
@@ -819,7 +818,7 @@ void Q1_2() {
 
 void Q1_3() {
 
-  l_m=0;
+  l_m=1;
   monster.lv=10;
   strcpy(monster.name,"Saladin");
   monster.attack=my_random(7)+4;
@@ -844,7 +843,6 @@ void Q1_4() {
     monster.defence=0;
     monster.exp=my_random(6)+14;
     set();
-    l_m=l_m;
   }
   strcpy(monster.name,"데까드케인");
   monster.attack=my_random(6)+4;
@@ -914,7 +912,7 @@ void Q1_6() {
   getch();
   getch();
 
-  l_m=0;
+  l_m=1;
   strcpy(monster.name,"안때리얼");
   monster.attack=my_random(6)+14;
   monster.mp=monster.nmp=monster.mp=monster.nhp=monster.hp=my_random(300)+770;
@@ -1047,6 +1045,7 @@ void Q2_3() {
   monster.defence=6;
   monster.exp=my_random(40)+130;
   set();
+  if(user.wh==9) user.wh++;
   return;
 }
 
@@ -1072,18 +1071,184 @@ void Q3_4() {
   return;
 }
 void Q3_5() {
+  int i;
+  l_m=10;
+  monster.lv=32;
+  for(i=0;i<3;i++) {
+    strcpy(monster.name,"타락 캐셔");
+    monster.attack=my_random(40)+25;
+    monster.mp=monster.nmp=monster.mp=monster.nhp=monster.hp=my_random(60)+150;
+    monster.gold=my_random(200)+1000;
+    monster.defence=5;
+    monster.exp=my_random(60)+90;
+    set();
+  }
+  for(i=0;i<5;i++)  {
+    strcpy(monster.name,"광분 소비자");
+    monster.attack=my_random(40)+23;
+    monster.mp=monster.nmp=monster.mp=monster.nhp=monster.hp=my_random(60)+200;
+    monster.gold=my_random(200)+1300;
+    monster.defence=4;
+    monster.exp=my_random(70)+100;
+    set();
+  }
+
+  for(i=0;i<2;i++)  {
+    strcpy(monster.name,"계산 로봇");
+    monster.attack=my_random(40)+26;
+    monster.mp=monster.nmp=monster.mp=monster.nhp=monster.hp=my_random(30)+70;
+    monster.gold=my_random(200)+1300;
+    monster.defence=4;
+    monster.exp=my_random(100)+120;
+    set();
+  }
+  if(user.wh==17) user.wh++;
   return;
 }
 void Q3_6() {
+  if(user.wh>18) {
+    printf("\n 보스급 스테이지는 한번 이상 클리어가 불가능 합니다");getch();
+    return;
+  }
+
+  clrscr();
+  printf("\n메피스토: 지금부터 서로 죽여라!!! 99%% 세일!!!");
+  delay(1200);
+  printf("\n%s: 매장이 난장판이 됐군..",user.name);
+  delay(1200);
+  printf("\n메피스토: 너는 왜 멀쩡한거지? 이거 낼 돈도 없는게냐?");
+  delay(1200);
+  printf("\n%s: 너랑 대화할 여유따윈 없다. \n <Enter> ",user.name);
+  delay(1200);
+  getch();
+  getch();
+
+  l_m=1;
+  strcpy(monster.name,"메피스토");
+  monster.attack=my_random(15)+30;
+  monster.mp=monster.nmp=monster.mp=monster.nhp=monster.hp=my_random(300)+1190;
+  monster.gold=3000;
+  monster.defence=10;
+  monster.exp=my_random(400)+1200;
+  set();
+  if(user.wh==18) user.wh++;
   return;
 }
 void Q4_1() {
+  int i;
+  l_m=7;
+  monster.lv=34;
+  for(i=0;i<2;i++) {
+    strcpy(monster.name,"하수 좀비");
+    monster.attack=my_random(40)+25;
+    monster.mp=monster.nmp=monster.mp=monster.nhp=monster.hp=my_random(60)+150;
+    monster.gold=my_random(200)+1000;
+    monster.defence=5;
+    monster.exp=my_random(60)+90;
+    set();
+  }
+  for(i=0;i<2;i++)  {
+    strcpy(monster.name,"오염 슬라임");
+    monster.attack=my_random(40)+23;
+    monster.mp=monster.nmp=monster.mp=monster.nhp=monster.hp=my_random(60)+200;
+    monster.gold=my_random(200)+1300;
+    monster.defence=4;
+    monster.exp=my_random(70)+100;
+    set();
+  }
+
+  for(i=0;i<3;i++)  {
+    strcpy(monster.name,"하수 감시자");
+    monster.attack=my_random(40)+26;
+    monster.mp=monster.nmp=monster.mp=monster.nhp=monster.hp=my_random(30)+70;
+    monster.gold=my_random(200)+1300;
+    monster.defence=4;
+    monster.exp=my_random(100)+120;
+    set();
+  }
+  if(user.wh==19) user.wh++;
   return;
 }
 void Q4_2() {
+  int i;
+  l_m=9;
+  monster.lv=36;
+  for(i=0;i<2;i++) {
+    strcpy(monster.name,"중수 좀비");
+    monster.attack=my_random(40)+25;
+    monster.mp=monster.nmp=monster.mp=monster.nhp=monster.hp=my_random(60)+150;
+    monster.gold=my_random(200)+1000;
+    monster.defence=5;
+    monster.exp=my_random(60)+90;
+    set();
+  }
+  for(i=0;i<3;i++)  {
+    strcpy(monster.name,"오염 슬라임");
+    monster.attack=my_random(40)+23;
+    monster.mp=monster.nmp=monster.mp=monster.nhp=monster.hp=my_random(60)+200;
+    monster.gold=my_random(200)+1300;
+    monster.defence=4;
+    monster.exp=my_random(70)+100;
+    set();
+  }
+
+  for(i=0;i<4;i++)  {
+    strcpy(monster.name,"중수 감시자");
+    monster.attack=my_random(40)+26;
+    monster.mp=monster.nmp=monster.mp=monster.nhp=monster.hp=my_random(30)+70;
+    monster.gold=my_random(200)+1300;
+    monster.defence=4;
+    monster.exp=my_random(100)+120;
+    set();
+  }
+  if(user.wh==20) user.wh++;
   return;
 }
 void Q4_3() {
+  if(user.wh>21) {
+    printf("\n 보스급 스테이지는 한번 이상 클리어가 불가능 합니다");getch();
+    return;
+  }
+
+  clrscr();
+  printf("\n디아블로: 기어코 여기까지 왔구나.....");
+  delay(1200);
+  printf("\n%s: 빨리 끝내고 너구리 게임이나 해야지~ 덤벼라!",user.name);
+  delay(1200);
+  printf("\n디아블로: 나와 싸우려면 내 부하부터 쓰려뜨려야 할거다.. 본때를 보여줘라!!");
+  delay(1200);
+  printf("\n%s: 귀찮게 됐군... \n <Enter> ",user.name);
+  delay(1200);
+  getch();
+  getch();
+
+  l_m=3;
+  int i;
+  monster.lv=40;
+  for(i=0;i<2;i++) {
+    strcpy(monster.name,"고수 감시자");
+    monster.attack=my_random(30)+25;
+    monster.mp=monster.nmp=monster.mp=monster.nhp=monster.hp=my_random(60)+150;
+    monster.gold=my_random(200)+2000;
+    monster.defence=5;
+    monster.exp=my_random(60)+90;
+    set();
+  }
+  strcpy(monster.name,"디아블로");
+  monster.attack=my_random(40)+43;
+  monster.mp=monster.nmp=monster.mp=monster.nhp=monster.hp=my_random(300)+1190;
+  monster.gold=3000;
+  monster.defence=10;
+  monster.exp=my_random(400)+12000;
+  clrscr();
+  printf("\n디아블로를 쓰러뜨렸다!");
+  delay(1200);
+  printf("\n이대로 세상이 평화로워 질 수 있을까..?(게임 클리어) \n <Enter> ");
+  delay(1200);
+  getch();
+  getch();
+  set();
+  if(user.wh==21) user.wh++;
   return;
 }
 
@@ -1133,7 +1298,7 @@ void h_m() {
   }
 
 void Mg()  {
-  int bonus,w,in,i,xx,s=0;
+  int bonus,w,in,i,s=0;
   gotoxy(1,14);printf("     Can Private Magic: \n ");
   printf("\n━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━");
   for(i=0;i<8;i++)  {
