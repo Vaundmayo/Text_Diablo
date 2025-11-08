@@ -145,6 +145,7 @@ struct my_struct {
 
 
 int cheat=0,l_m,count1,count2; 
+int escape = 0; // 도망가기 전역변수 선언
 int main() { 
   int a;
 	randomize();
@@ -736,6 +737,10 @@ void set() {
       case 1: M_A(); break;
       case 2: Mg(); break;
       case 3: Potion(); break;
+      case 4: printf("\n도망가기 성공! 캠프로 복귀합니다.");
+              getch();
+              escape = 1;
+              return;
     }
   }
   return;
@@ -760,8 +765,9 @@ void  Q1_1()  {
 		monster.gold=my_random(6)+1;
 		monster.defence=0;
 		set();
-
+    if(escape) return;
 	}
+
 	for(i=0;i<10;i++) {
 		strcpy(monster.name,"Skel_Mid");
     monster.hp=my_random(14)+7;
@@ -773,7 +779,9 @@ void  Q1_1()  {
 		monster.defence=2;
 		monster.exp=my_random(5)+1;
 		set();
+    if(escape) return;
 	}
+
 	for(i=0;i<9;i++) {
 		strcpy(monster.name,"Skel_Gosu");
     monster.hp=my_random(20)+9;
@@ -785,7 +793,9 @@ void  Q1_1()  {
 		monster.defence=3;
 		monster.exp=my_random(7)+2;
 		set();
+    if(escape) return;
   }
+
 	clrscr();
 	printf("\n 뽀너스: Light Healing Potion +1");
 	user.item[0]+=1;
@@ -801,6 +811,8 @@ void  Q1_1()  {
 	monster.defence=1;
 	monster.exp=my_random(35)+7;
 	set();
+  if(escape) return;
+
  if(user.wh==1) user.wh++;
  return;
 }
@@ -818,6 +830,8 @@ void Q1_2() {
   monster.defence=2;
   monster.exp=my_random(7)+22;
   set();
+  if(escape) return;
+
   monster.lv=8;
   monster.hp=my_random(40)+210;
   monster.nhp=monster.hp;
@@ -829,6 +843,8 @@ void Q1_2() {
   monster.defence=6;
   monster.exp=my_random(8)+30;
   set();
+  if(escape) return;
+
   if(user.wh==2) user.wh++;
   return;
 }
@@ -847,6 +863,8 @@ void Q1_3() {
   monster.defence=3;
   monster.exp=my_random(37)+45;
   set();
+  if(escape) return;
+
   if(user.wh==3) user.wh++;
   return;
 }
@@ -866,6 +884,7 @@ void Q1_4() {
     monster.defence=0;
     monster.exp=my_random(6)+14;
     set();
+    if(escape) return;
   }
   strcpy(monster.name,"데까드케인");
   monster.attack=my_random(6)+4;
@@ -877,6 +896,8 @@ void Q1_4() {
   monster.defence=5;
   monster.exp=my_random(70)+37;
   set();
+  if(escape) return;
+
   if(user.wh==4) user.wh++;
   return;
 }
@@ -896,6 +917,7 @@ void Q1_5() {
     monster.defence=1;
     monster.exp=my_random(7)+10;
     set();
+    if(escape) return;
   }
   for(i=0;i<4;i++)  {
     strcpy(monster.name,"사시미군단");
@@ -908,6 +930,7 @@ void Q1_5() {
     monster.defence=2;
     monster.exp=my_random(7)+10;
     set();
+    if(escape) return;
   }
 
   for(i=0;i<3;i++)  {
@@ -921,6 +944,7 @@ void Q1_5() {
     monster.defence=4;
     monster.exp=my_random(7)+20;
     set();
+    if(escape) return;
   }
   if(user.wh==5) user.wh++;
   return;
@@ -957,6 +981,7 @@ void Q1_6() {
   monster.defence=3;
   monster.exp=my_random(400)+200;
   set();
+  if(escape) return;
   if(user.wh==6) user.wh++;
   return;
 }
@@ -974,6 +999,7 @@ void Q2_1() {
   monster.defence=8;
   monster.exp=my_random(30)+6;
   set();
+  if(escape) return;
   strcpy(monster.name,"Turtle_2");
   monster.attack=my_random(20)+6;
   monster.hp=my_random(40)+70;
@@ -984,6 +1010,7 @@ void Q2_1() {
   monster.defence=6;
   monster.exp=my_random(30)+6;
   set();
+  if(escape) return;
   strcpy(monster.name,"Turtle_3");
   monster.attack=my_random(20)+6;
   monster.hp=my_random(40)+75;
@@ -994,6 +1021,7 @@ void Q2_1() {
   monster.defence=7;
   monster.exp=my_random(30)+6;
   set();
+  if(escape) return;
   strcpy(monster.name,"Turtle_4");
   monster.attack=my_random(20)+6;
   monster.hp=my_random(40)+80;
@@ -1004,6 +1032,7 @@ void Q2_1() {
   monster.defence=4;
   monster.exp=my_random(30)+6;
   set();
+  if(escape) return;
   strcpy(monster.name,"Turtle_5");
   monster.attack=my_random(30)+6;
   monster.hp=my_random(40)+85;
@@ -1014,6 +1043,7 @@ void Q2_1() {
   monster.defence=5;
   monster.exp=my_random(50)+20;
   set();
+  if(escape) return;
   strcpy(monster.name,"동상 단군");
   monster.attack=my_random(10)+16;
   monster.hp=my_random(50)+150;
@@ -1024,6 +1054,7 @@ void Q2_1() {
   monster.defence=9;
   monster.exp=my_random(40)+40;
   set();
+  if(escape) return;
 
   if(user.wh==7) user.wh++;
   return;
@@ -1041,6 +1072,7 @@ void Q2_2() {
   monster.defence=7;
   monster.exp=my_random(40)+8;
   set();
+  if(escape) return;
   strcpy(monster.name,"Jangarian");
   monster.attack=my_random(20)+10;
   monster.hp=my_random(40)+100;
@@ -1051,6 +1083,7 @@ void Q2_2() {
   monster.defence=4;
   monster.exp=my_random(30)+5;
   set();
+  if(escape) return;
   strcpy(monster.name,"기니피그");
   monster.attack=my_random(20)+6;
   monster.hp=my_random(40)+100;
@@ -1061,6 +1094,7 @@ void Q2_2() {
   monster.defence=6;
   monster.exp=my_random(30)+10;
   set();
+  if(escape) return;
   strcpy(monster.name,"~시궁쥐~");
   monster.attack=my_random(46)+16;
   monster.hp=my_random(80)+200;
@@ -1071,6 +1105,8 @@ void Q2_2() {
   monster.defence=3;
   monster.exp=my_random(40)+40;
   set();
+  if(escape) return;
+
   if(user.wh==8) user.wh++;
   return;
 }
@@ -1087,6 +1123,7 @@ void Q2_3() {
   monster.defence=8;
   monster.exp=my_random(40)+30;
   set();
+  if(escape) return;
   strcpy(monster.name,"Ddubi");
   monster.attack=my_random(36)+16;
   monster.hp=my_random(40)+150;
@@ -1097,6 +1134,7 @@ void Q2_3() {
   monster.defence=4;
   monster.exp=my_random(40)+30;
   set();
+  if(escape) return;
   strcpy(monster.name,"NaNa");
   monster.attack=my_random(36)+16;
   monster.hp=my_random(40)+150;
@@ -1107,6 +1145,7 @@ void Q2_3() {
   monster.defence=4;
   monster.exp=my_random(40)+30;
   set();
+  if(escape) return;
   strcpy(monster.name,"Bo");
   monster.attack=my_random(36)+16;
   monster.hp=my_random(40)+150;
@@ -1117,6 +1156,7 @@ void Q2_3() {
   monster.defence=3;
   monster.exp=my_random(40)+30; 
   set();
+  if(escape) return;
   strcpy(monster.name,"BabyOfSun");
   monster.attack=my_random(10)+8;
   monster.hp=my_random(50)+200;
@@ -1127,6 +1167,8 @@ void Q2_3() {
   monster.defence=6;
   monster.exp=my_random(40)+130;
   set();
+  if(escape) return;
+
   if(user.wh==9) user.wh++;
   return;
 }
@@ -1145,6 +1187,7 @@ void Q2_4() {
   monster.defence=6;
   monster.exp=my_random(50)+150;
   set();
+  if(escape) return;
 
   strcpy(monster.name,"가리비");
   monster.attack=my_random(10)+15;
@@ -1156,6 +1199,7 @@ void Q2_4() {
   monster.defence=6;
   monster.exp=my_random(50)+150;
   set();
+  if(escape) return;
 
   strcpy(monster.name,"홍합");
   monster.attack=my_random(20)+15;
@@ -1167,6 +1211,7 @@ void Q2_4() {
   monster.defence=6;
   monster.exp=my_random(50)+150;
   set();
+  if(escape) return;
 
   strcpy(monster.name,"키조개");
   monster.attack=my_random(20)+20;
@@ -1178,6 +1223,7 @@ void Q2_4() {
   monster.defence=6;
   monster.exp=my_random(50)+150;
   set();
+  if(escape) return;
 
   if(user.wh==10) user.wh++;
   return;
@@ -1196,6 +1242,7 @@ void Q2_5() {
   monster.defence=8;
   monster.exp=my_random(150)+240;
   set();
+  if(escape) return;
 
   strcpy(monster.name,"2학년 담임");
   monster.attack=my_random(10)+15;
@@ -1207,6 +1254,7 @@ void Q2_5() {
   monster.defence=8;
   monster.exp=my_random(150)+240;
   set();
+  if(escape) return;
 
   strcpy(monster.name,"3학년 담임");
   monster.attack=my_random(20)+15;
@@ -1218,6 +1266,7 @@ void Q2_5() {
   monster.defence=8;
   monster.exp=my_random(150)+240;
   set();
+  if(escape) return;
 
   strcpy(monster.name,"4학년 담임");
   monster.attack=my_random(20)+20;
@@ -1229,6 +1278,7 @@ void Q2_5() {
   monster.defence=8;
   monster.exp=my_random(150)+240;
   set();
+  if(escape) return;
 
   strcpy(monster.name,"5학년 담임");
   monster.attack=my_random(20)+15;
@@ -1240,6 +1290,7 @@ void Q2_5() {
   monster.defence=8;
   monster.exp=my_random(150)+240;
   set();
+  if(escape) return;
 
   strcpy(monster.name,"6학년 담임");
   monster.attack=my_random(20)+20;
@@ -1251,6 +1302,7 @@ void Q2_5() {
   monster.defence=8;
   monster.exp=my_random(150)+240;
   set();
+  if(escape) return;
 
   if(user.wh==11) user.wh++;
   return;
@@ -1285,6 +1337,7 @@ void Q2_6() {
   monster.defence=10;
   monster.exp=my_random(400)+1200;
   set();
+  if(escape) return;
 
   if(user.wh==12) user.wh++;
   return;
@@ -1304,6 +1357,7 @@ void Q3_1() {
   monster.defence=9;
   monster.exp=my_random(200)+300;
   set();
+  if(escape) return;
 
   for(i=0;i<2;i++){
     strcpy(monster.name,"방송요정");
@@ -1316,6 +1370,7 @@ void Q3_1() {
     monster.defence=9;
     monster.exp=my_random(200)+300;
     set();
+    if(escape) return;
   }
 
   for(i=0;i<2;i++){
@@ -1329,6 +1384,7 @@ void Q3_1() {
     monster.defence=9;
     monster.exp=my_random(200)+300;
     set();
+    if(escape) return;
   }
 
   if(user.wh==13) user.wh++;
@@ -1349,6 +1405,7 @@ void Q3_2() {
   monster.defence=9;
   monster.exp=my_random(200)+350;
   set();
+  if(escape) return;
 
   for(i=0;i<5;i++){
     strcpy(monster.name,"라면 슬라임");
@@ -1361,6 +1418,7 @@ void Q3_2() {
     monster.defence=9;
     monster.exp=my_random(200)+350;
     set();
+    if(escape) return;
   }
 
   if(user.wh==14) user.wh++;
@@ -1382,6 +1440,7 @@ void Q3_3() {
     monster.defence=9;
     monster.exp=my_random(200)+400;
     set();
+    if(escape) return;
   }
 
   for(i=0;i<2;i++){
@@ -1395,6 +1454,7 @@ void Q3_3() {
     monster.defence=9;
     monster.exp=my_random(200)+400;
     set();
+    if(escape) return;
   }
 
   for(i=0;i<2;i++){
@@ -1408,6 +1468,7 @@ void Q3_3() {
     monster.defence=9;
     monster.exp=my_random(200)+400;
     set();
+    if(escape) return;
   }
 
   for(i=0;i<2;i++){
@@ -1421,6 +1482,7 @@ void Q3_3() {
     monster.defence=9;
     monster.exp=my_random(200)+400;
     set();
+    if(escape) return;
   }
 
   for(i=0;i<2;i++){
@@ -1434,6 +1496,7 @@ void Q3_3() {
     monster.defence=9;
     monster.exp=my_random(200)+400;
     set();
+    if(escape) return;
   }
 
   if(user.wh==15) user.wh++;
@@ -1453,6 +1516,7 @@ void Q3_4() {
   monster.defence=10;
   monster.exp=my_random(200)+450;
   set();
+  if(escape) return;
 
   strcpy(monster.name,"크롱");
   monster.attack=my_random(20)+44;
@@ -1464,6 +1528,7 @@ void Q3_4() {
   monster.defence=10;
   monster.exp=my_random(200)+450;
   set();
+  if(escape) return;
 
   strcpy(monster.name,"루피");
   monster.attack=my_random(20)+44;
@@ -1475,6 +1540,7 @@ void Q3_4() {
   monster.defence=10;
   monster.exp=my_random(200)+450;
   set();
+  if(escape) return;
 
   strcpy(monster.name,"에디");
   monster.attack=my_random(20)+44;
@@ -1486,6 +1552,7 @@ void Q3_4() {
   monster.defence=10;
   monster.exp=my_random(200)+450;
   set();
+  if(escape) return;
 
   strcpy(monster.name,"포비");
   monster.attack=my_random(20)+44;
@@ -1497,6 +1564,7 @@ void Q3_4() {
   monster.defence=10;
   monster.exp=my_random(200)+450;
   set();
+  if(escape) return;
 
   strcpy(monster.name,"해리");
   monster.attack=my_random(20)+44;
@@ -1508,6 +1576,7 @@ void Q3_4() {
   monster.defence=10;
   monster.exp=my_random(200)+450;
   set();
+  if(escape) return;
 
   strcpy(monster.name,"패티");
   monster.attack=my_random(20)+44;
@@ -1519,6 +1588,7 @@ void Q3_4() {
   monster.defence=10;
   monster.exp=my_random(200)+450;
   set();
+  if(escape) return;
 
   strcpy(monster.name,"로디");
   monster.attack=my_random(20)+44;
@@ -1530,6 +1600,7 @@ void Q3_4() {
   monster.defence=10;
   monster.exp=my_random(200)+450;
   set();
+  if(escape) return;
 
   if(user.wh==16) user.wh++;
   return;
@@ -1549,6 +1620,7 @@ void Q3_5() {
     monster.defence=11;
     monster.exp=my_random(200)+500;
     set();
+    if(escape) return;
   }
   for(i=0;i<5;i++)  {
     strcpy(monster.name,"광분 소비자");
@@ -1561,6 +1633,7 @@ void Q3_5() {
     monster.defence=11;
     monster.exp=my_random(200)+550;
     set();
+    if(escape) return;
   }
 
   for(i=0;i<2;i++)  {
@@ -1574,6 +1647,7 @@ void Q3_5() {
     monster.defence=11;
     monster.exp=my_random(200)+600;
     set();
+    if(escape) return;
   }
   if(user.wh==17) user.wh++;
   return;
@@ -1607,6 +1681,7 @@ void Q3_6() {
   monster.defence=12;
   monster.exp=my_random(400)+1600;
   set();
+  if(escape) return;
 
   if(user.wh==18) user.wh++;
   return;
@@ -1626,6 +1701,7 @@ void Q4_1() {
     monster.defence=13;
     monster.exp=my_random(200)+800;
     set();
+    if(escape) return;
   }
   for(i=0;i<2;i++)  {
     strcpy(monster.name,"오염 슬라임");
@@ -1638,6 +1714,7 @@ void Q4_1() {
     monster.defence=13;
     monster.exp=my_random(200)+800;
     set();
+    if(escape) return;
   }
 
   for(i=0;i<3;i++)  {
@@ -1651,6 +1728,7 @@ void Q4_1() {
     monster.defence=13;
     monster.exp=my_random(200)+800;
     set();
+    if(escape) return;
   }
   if(user.wh==19) user.wh++;
   return;
@@ -1670,6 +1748,7 @@ void Q4_2() {
     monster.defence=13;
     monster.exp=my_random(200)+900;
     set();
+    if(escape) return;
   }
   for(i=0;i<3;i++)  {
     strcpy(monster.name,"오염 슬라임");
@@ -1682,6 +1761,7 @@ void Q4_2() {
     monster.defence=13;
     monster.exp=my_random(200)+900;
     set();
+    if(escape) return;
   }
 
   for(i=0;i<4;i++)  {
@@ -1695,6 +1775,7 @@ void Q4_2() {
     monster.defence=13;
     monster.exp=my_random(200)+900;
     set();
+    if(escape) return;
   }
   if(user.wh==20) user.wh++;
   return;
@@ -1731,6 +1812,7 @@ void Q4_3() {
     monster.defence=14;
     monster.exp=my_random(200)+1200;
     set();
+    if(escape) return;
   }
   strcpy(monster.name,"디아블로");
   monster.attack=my_random(20)+60;
@@ -1749,6 +1831,7 @@ void Q4_3() {
   getch();
   getch();
   set();
+  if(escape) return;
   if(user.wh==21) user.wh++;
   return;
 }
