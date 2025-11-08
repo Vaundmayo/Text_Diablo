@@ -28,19 +28,6 @@ void clrscr() {
 
 void textcolor(int color) {
   switch(color){
-
-    case 1: printf("\033[31m]"); // textcolor() : 빨강
-    break;
-
-    case 2: printf("\033[32m]"); // textcolor(2) : 초록
-    break;
-
-    case 3: printf("\033[33m]"); // textcolor(3) : 노랑
-    break;
-
-    case 4: printf("\033[34m]"); // textcolor(9) : 파랑
-    break;
-
     case 15: printf("\033[37m]"); // textcolor(15) : 흰색
     break;
 
