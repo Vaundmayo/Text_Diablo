@@ -1051,12 +1051,99 @@ void Q2_3() {
 }
 
 void Q2_4() {
+
+	int i;
+  l_m = 10;
+  monster.lv = 15;
+
+  for (i = 0; i < 3; i++) {
+    strcpy(monster.name, "가리비");
+    monster.attack = my_random(20) + 10;
+    monster.mp = monster.nmp = monster.hp = monster.nhp = my_random(100) + 180;
+    monster.gold = my_random(100) + 30;
+    monster.defence = 4;
+    monster.exp = my_random(50) + 60;
+    set();
+  }
+
+  for (i = 0; i < 3; i++) {
+    strcpy(monster.name, "홍합");
+    monster.attack = my_random(20) + 12;
+    monster.mp = monster.nmp = monster.hp = monster.nhp = my_random(120) + 200;
+    monster.gold = my_random(80) + 40;
+    monster.defence = 5;
+    monster.exp = my_random(60) + 70;
+    set();
+  }
+
+  for (i = 0; i < 3; i++) {
+    strcpy(monster.name, "키조개");
+    monster.attack = my_random(20) + 15;
+    monster.mp = monster.nmp = monster.hp = monster.nhp = my_random(130) + 220;
+    monster.gold = my_random(80) + 50;
+    monster.defence = 6;
+    monster.exp = my_random(60) + 80;
+    set();
+  }
+
+  strcpy(monster.name, "보노보노");
+  monster.attack = my_random(25) + 25;
+  monster.mp = monster.nmp = monster.hp = monster.nhp = my_random(300) + 700;
+  monster.gold = my_random(200) + 200;
+  monster.defence = 8;
+  monster.exp = my_random(200) + 200;
+  set();
+
+  if (user.wh == 10) user.wh++;
   return;
 }
 void Q2_5() {
+
+	int i;
+  l_m = 6;
+  monster.lv = 17;
+
+  for (i = 1; i <= 6; i++) {
+    sprintf(monster.name, "%d학년 담임좀비", i);
+    monster.attack = my_random(20) + 15;
+    monster.mp = monster.nmp = monster.hp = monster.nhp = my_random(150) + 400;
+    monster.gold = my_random(100) + 70;
+    monster.defence = my_random(5) + 3;
+    monster.exp = my_random(80) + 120;
+    set();
+  }
+
+  if (user.wh == 11) user.wh++;
   return;
 }
 void Q2_6() {
+
+	if (user.wh > 12) {
+    printf("\n 보스급 스테이지는 한번 이상 클리어가 불가능 합니다");
+    getch();
+    return;
+  }
+
+  clrscr();
+  printf("\n듀리엘: 후하하하... 단군의 힘이 내게 깃들었다!");
+  delay(1200);
+  printf("\n%s: 단군상에 숨어있다니... 이건 예상을 못했군.", user.name);
+  delay(1200);
+  printf("\n듀리엘: 모두 얼어붙어라! 냉기의 심판을 받게 하마!");
+  delay(1200);
+  printf("\n%s: 이런 얼음 마법 따위에 질 수는 없지! \n <Enter>", user.name);
+  getch(); getch();
+
+  l_m = 1;
+  strcpy(monster.name, "듀리엘");
+  monster.attack = my_random(25) + 35;
+  monster.mp = monster.nmp = monster.hp = monster.nhp = my_random(400) + 900;
+  monster.gold = my_random(400) + 400;
+  monster.defence = 10;
+  monster.exp = my_random(300) + 300;
+  set();
+
+  if (user.wh == 12) user.wh++;
   return;
 }
 void Q3_1() {
