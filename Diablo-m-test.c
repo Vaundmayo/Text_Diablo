@@ -27,7 +27,26 @@ void clrscr() {
 }
 
 void textcolor(int color) {
-  // Linux에서는 컬러를 ANSI escape code로 처리할 수 있음. 여기서는 무시.
+  switch(color){
+
+    case 1: printf("\033[31m]"); // textcolor() : 빨강
+    break;
+
+    case 2: printf("\033[32m]"); // textcolor(2) : 초록
+    break;
+
+    case 3: printf("\033[33m]"); // textcolor(3) : 노랑
+    break;
+
+    case 4: printf("\033[34m]"); // textcolor(9) : 파랑
+    break;
+
+    case 15: printf("\033[37m]"); // textcolor(15) : 흰색
+    break;
+
+    default: printf("\033[37m]"); // 기본색 : 흰색
+  }
+  fflush(stdout);
 }
 
 void gotoxy(int x, int y) {
