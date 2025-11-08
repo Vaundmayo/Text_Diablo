@@ -542,6 +542,7 @@ void Condition() {
   printf("\n━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━┻━━━━━━━━━━┻━━━━━━━━━━━━");
   printf("\n\n\n  < E N T E R >");
   getch();
+  getch();
   return;
 }
 
