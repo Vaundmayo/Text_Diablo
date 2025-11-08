@@ -1061,15 +1061,7 @@ void Q2_6() {
 void Q3_1() {
   int i;
   l_m=5;
-  monster.lv=21;
-
-  strcpy(monster.name,"DJ증오");
-  monster.attack=my_random(40)+50;
-  monster.mp=monster.nmp=monster.mp=monster.nhp=monster.hp=my_random(200)+1550;
-  monster.gold=my_random(400)+60;
-  monster.defence=6;
-  monster.exp=my_random(50)+140;
-  set();
+  monster.lv=20;
 
   for(i=0;i<2;i++){
     strcpy(monster.name,"방송요정");
@@ -1090,6 +1082,18 @@ void Q3_1() {
     monster.exp=my_random(50)+140;
     set();
   }
+  clrscr();
+	printf("\n 뽀너스: Light Healing Potion +1");
+	user.item[0]+=1;
+	getch();
+	monster.lv=21;
+	strcpy(monster.name,"DJ증오");
+  monster.attack=my_random(40)+50;
+  monster.mp=monster.nmp=monster.mp=monster.nhp=monster.hp=my_random(200)+1550;
+  monster.gold=my_random(400)+60;
+  monster.defence=6;
+  monster.exp=my_random(50)+140;
+  set();
 
   if(user.wh==13) user.wh++;
   return;
@@ -1098,14 +1102,6 @@ void Q3_2() {
   int i;
   l_m=6;
   monster.lv=22;
-
-  strcpy(monster.name,"마녀 징징이");
-  monster.attack=my_random(40)+30;
-  monster.mp=monster.nmp=monster.mp=monster.nhp=monster.hp=my_random(200)+1550;
-  monster.gold=my_random(400)+70;
-  monster.defence=6;
-  monster.exp=my_random(50)+140;
-  set();
 
   for(i=0;i<5;i++){
     strcpy(monster.name,"라면 슬라임");
@@ -1116,6 +1112,14 @@ void Q3_2() {
     monster.exp=my_random(50)+140;
     set();
   }
+
+  strcpy(monster.name,"마녀 징징이");
+  monster.attack=my_random(40)+30;
+  monster.mp=monster.nmp=monster.mp=monster.nhp=monster.hp=my_random(200)+1550;
+  monster.gold=my_random(400)+70;
+  monster.defence=6;
+  monster.exp=my_random(50)+140;
+  set();
 
   if(user.wh==14) user.wh++;
   return;
