@@ -268,6 +268,7 @@ return;
 }
 
 void Battle() {
+  escape = 0; // 도망 상태 초기화
   int l,time;
   FILE *fp24;
   while(1)
