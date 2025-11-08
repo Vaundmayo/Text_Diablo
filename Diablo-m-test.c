@@ -739,6 +739,11 @@ void set() {
       case 2: Mg(); break;
       case 3: Potion(); break;
       case 4: printf("\n도망가기 성공! 캠프로 복귀합니다.");
+              fflush(stdout);
+
+              int c;
+              while((c=getchar()) != '\n' && c != EOF) {} // 버퍼에 남은 '\n' 제거
+              
               getch();
               escape = 1;
               return;
