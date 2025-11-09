@@ -173,7 +173,6 @@ int main() {
 	cheat=0;
 	while(1)
   {
-	  clrscr();
   	clrscr();
   	printf("\n\n\n\n\n\n");
   	printf("\n            ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
@@ -995,7 +994,7 @@ void Q1_6() {
   printf("\nAnddaerial: 레벨도 %d 밖에 안되는 주제에 내 레벨은 %d 다!!",user.lv,monster.lv=user.lv+10);
   delay(1200);
   printf("\n%s: 헉... 그래도 승부다!! -.-;; \n <Enter> ",user.name);
-  getch();
+  delay(1200);
   getch();
 
   l_m=1;
@@ -1336,7 +1335,7 @@ void Q2_5() {
   return;
 }
 void Q2_6() {
-  if(user.wh>13) {
+  if(user.wh>12) {
     printf("\n 보스급 스테이지는 한번 이상 클리어가 불가능 합니다");getch();
     return;
   }
@@ -1349,7 +1348,7 @@ void Q2_6() {
   printf("\n듀리엘: 사계절 다 눈이 내리도록 해주지!");
   delay(1200);
   printf("\n%s: 야호! \n <Enter> ",user.name);
-  getch();
+  delay(1200);
   getch();
 
   l_m=1;
@@ -1693,7 +1692,7 @@ void Q3_6() {
   printf("\n메피스토: 너는 왜 멀쩡한거지? 이거 낼 돈도 없는게냐?");
   delay(1200);
   printf("\n%s: 너랑 대화할 여유따윈 없다. \n <Enter> ",user.name);
-  getch();
+  delay(1200);
   getch();
 
   l_m=1;
@@ -1820,7 +1819,7 @@ void Q4_3() {
   printf("\n디아블로: 나와 싸우려면 내 부하부터 쓰려뜨려야 할거다.. 본때를 보여줘라!!");
   delay(1200);
   printf("\n%s: 귀찮게 됐군... \n <Enter> ",user.name);
-  getch();
+  delay(1200);
   getch();
 
   l_m=3;
@@ -1849,13 +1848,14 @@ void Q4_3() {
   monster.defence=14;
   monster.exp=my_random(1000)+2000;
   set();
+  if(escape) return;
+
   clrscr();
   printf("\n디아블로를 쓰러뜨렸다!");
   delay(1200);
   printf("\n이대로 세상이 평화로워 질 수 있을까..?(게임 클리어) \n <Enter> ");
+  delay(1200);
   getch();
-  getch();
-  if(escape) return;
   if(user.wh==21) user.wh++;
   return;
 }
