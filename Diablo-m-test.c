@@ -91,9 +91,6 @@ int my_random(int n);
 #endif
 
 // 공통 함수들 (OS 무관)
-void textcolor(int color) {
-    // Linux에서는 컬러를 ANSI escape code로 처리할 수 있음. 여기서는 무시.
-}
 
 void gotoxy(int x, int y) {
     printf("\033[%d;%dH", y, x);
@@ -177,7 +174,6 @@ int main() {
 	while(1)
   {
 	  clrscr();
-  	textcolor(15);
   	clrscr();
   	printf("\n\n\n\n\n\n");
   	printf("\n            ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
@@ -210,6 +206,10 @@ int main() {
 void Insert_weapon() {
   int i;
   FILE *fp13=fopen("weapon.qwe","r");
+  if(fp13 == NULL) {
+    printf("Error: Cannot open weapon.qwe\n");
+    return;
+}
   fscanf(fp13,"%d",&count1);
   for(i=0;i<100;i++)
 	fscanf(fp13,"%s %d %d %d %d",weapon[i].name,&weapon[i].power,&weapon[i].hp_bonus,&weapon[i].mp_bonus,&weapon[i].cost);
@@ -220,6 +220,10 @@ void Insert_weapon() {
 void Insert_defence() {
   int i;
   FILE *fp56=fopen("defence.qwe","rt");
+  if(fp56 == NULL) {
+    printf("Error: Cannot open defence.qwe\n");
+    return;
+}
   fscanf(fp56,"%d",&count2);
   for(i=0;i<count2;i++)
 	fscanf(fp56,"%s %d %d %d %d",defence[i].name,&defence[i].defence,&defence[i].hp,&defence[i].mp,&defence[i].cost);
@@ -298,7 +302,6 @@ void Battle() {
   while(1)
   {
     char data;
-    textcolor(15);
     clrscr();
     printf("  ┏━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━┓\n");
     printf("  ┃  A C T 1 ┃  A C T 2 ┃  A C T 3 ┃  A C T 4 ┃\n");
@@ -352,6 +355,7 @@ void Battle() {
       if(time==0) getch();
       getch();
     }
+    fclose(fp24);
     if(l==1) Q1_1();
     if(l==2) Q1_2();
     if(l==3) Q1_3();
@@ -403,8 +407,8 @@ void Potion() {
   		case 4: user.nmp+=50; if(user.nmp>user.mp) user.nmp=user.mp;user.item[3]--; break;
   		case 5: user.nhp+=100; if(user.nhp>user.hp) user.nhp=user.hp;user.item[4]--; break;
   		case 6: user.nmp+=100; if(user.nmp>user.mp) user.nmp=user.mp;user.item[5]--; break;
-  		case 7: user.nhp+=user.hp;user.item[6]--;break;
-  		case 8: user.nmp+=user.nmp;user.item[7]--;break;
+  		case 7: user.nhp=user.hp;user.item[6]--;break;
+  		case 8: user.nmp=user.mp;user.item[7]--;break;
 	  }
   h_m();
   } else {
@@ -464,7 +468,6 @@ void Defence_Store() {
     if(defence[l-1].cost > user.gold && l>0 && l<count1+1) {
       printf("\n Need More Money");getch();continue;
     } else {
-      user.gold-=defence[l-1].cost;
       user.gold-=defence[l-1].cost;
       user.hp+=defence[l-1].hp;
       user.mp+=defence[l-1].mp;
@@ -545,7 +548,6 @@ void Save_option() {
 void Condition() {
   int i;
   clrscr();
-  textcolor(15);
   printf("\n\n");
   printf("          N   a  m   e: %s\n",user.name);
   printf("          L e  v  e  l: %d\n",user.lv);
@@ -555,16 +557,13 @@ void Condition() {
   printf("          DefencePoint: %d\n",user.defence);
   printf("          Need     Exp: %d \n",user.exp);
   printf("          G   O  L   D: %d \n",user.gold);
-  textcolor(15);
   printf("     Can Private Magic: \n ");
   printf("\n━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━");
-  textcolor(15);
   for(i=0;i<8;i++)  {
   	if(magic[i].lv <= user.lv)  {
       printf("\n NAME: %16s ┃  Damage: %3d ┃ Mp: %4d ┃  Level: %3d",magic[i].name,magic[i].power,magic[i].ump,magic[i].lv);
     }
   }
-  textcolor(15);
   printf("\n━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━┻━━━━━━━━━━┻━━━━━━━━━━━━");
   printf("\n\n\n  < E N T E R >");
   getch();
@@ -720,7 +719,6 @@ void set() {
     	l_m--;
       if(user.exp<=0) {
     		clrscr();
-    		textcolor(15);
     		printf("\n Level Up!");
 
   		  switch(user.cs) 
@@ -743,7 +741,6 @@ void set() {
     	getch();
     	exit(1);
   	}
-    textcolor(15);
 
     gotoxy(1,2);printf("                               ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
     gotoxy(1,3);printf("   1.Melee Attack              ┃   Name: %12s       %10s    ┃",user.name,monster.name);
@@ -1352,7 +1349,6 @@ void Q2_6() {
   printf("\n듀리엘: 사계절 다 눈이 내리도록 해주지!");
   delay(1200);
   printf("\n%s: 야호! \n <Enter> ",user.name);
-  delay(1200);
   getch();
   getch();
 
@@ -1697,7 +1693,6 @@ void Q3_6() {
   printf("\n메피스토: 너는 왜 멀쩡한거지? 이거 낼 돈도 없는게냐?");
   delay(1200);
   printf("\n%s: 너랑 대화할 여유따윈 없다. \n <Enter> ",user.name);
-  delay(1200);
   getch();
   getch();
 
@@ -1825,7 +1820,6 @@ void Q4_3() {
   printf("\n디아블로: 나와 싸우려면 내 부하부터 쓰려뜨려야 할거다.. 본때를 보여줘라!!");
   delay(1200);
   printf("\n%s: 귀찮게 됐군... \n <Enter> ",user.name);
-  delay(1200);
   getch();
   getch();
 
@@ -1854,14 +1848,13 @@ void Q4_3() {
   monster.gold=my_random(2000)+1400;
   monster.defence=14;
   monster.exp=my_random(1000)+2000;
+  set();
   clrscr();
   printf("\n디아블로를 쓰러뜨렸다!");
   delay(1200);
   printf("\n이대로 세상이 평화로워 질 수 있을까..?(게임 클리어) \n <Enter> ");
-  delay(1200);
   getch();
   getch();
-  set();
   if(escape) return;
   if(user.wh==21) user.wh++;
   return;
@@ -1939,9 +1932,9 @@ void Mg()  {
 
     switch(w)
   	{
-    	case 0:textcolor(15);printf("\n 피에 굶주린 자들이여 성스러운 %s 를 받아라~~~",magic[in-1].name); break;
-	    case 1:textcolor(15);printf("\n 나의 주먹을 맛 보아라~~~~%s!!!!",magic[in-1].name);break;
-	    case 2:textcolor(15);printf("\n %s!!! 하핫 아프지? ",magic[in-1].name);break;
+    	case 0:printf("\n 피에 굶주린 자들이여 성스러운 %s 를 받아라~~~",magic[in-1].name); break;
+	    case 1:printf("\n 나의 주먹을 맛 보아라~~~~%s!!!!",magic[in-1].name);break;
+	    case 2:printf("\n %s!!! 하핫 아프지? ",magic[in-1].name);break;
   	}
 	  printf("\n 당신은 %s 에게 %d 만큼의 데미지를 가합니다",monster.name,magic[in-1].power+bonus);
   	monster.nhp-=(magic[in-1].power+bonus);
