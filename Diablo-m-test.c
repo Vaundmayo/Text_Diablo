@@ -4,9 +4,16 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
-#include <unistd.h>
-#include <termios.h>
-#include <fcntl.h>
+
+// Windows 환경 감지
+#ifdef _WIN32
+    #include <windows.h>
+    #include <conio.h>
+#else
+    #include <unistd.h>
+    #include <termios.h>
+    #include <fcntl.h>
+#endif
 
 // 함수 선언
 void Q1_1(); void Q1_2(); void Q1_3(); void Q1_4(); void Q1_5(); void Q1_6();
@@ -21,73 +28,85 @@ void M_A(); void Mg();
 int my_random(int n);
 
 // Windows 전용 함수 대체
-void clrscr() {
-  printf("\033[2J\033[1;1H");
-  fflush(stdout);
-}
+#ifdef _WIN32
+    // Windows용 구현
+    void clrscr() {
+        system("cls");
+    }
+    
+    void delay(int ms) {
+        Sleep(ms);
+    }
+     
+    // Windows는 conio.h의 kbhit(), getch() 사용
+    
+#else
+    // Linux/macOS용 구현
+    void clrscr() {
+        printf("\033[2J\033[1;1H");
+        fflush(stdout);
+    }
+    
+    void delay(int ms) {
+        usleep(ms * 1000);
+    }
+    // kbhit 대체 (non-blocking 키 입력 확인)
+    int kbhit(void) {
+        struct termios oldt, newt;
+        int ch;
+        int oldf;
+        int hit = 0;
 
+        tcgetattr(STDIN_FILENO, &oldt);
+        newt = oldt;
+        newt.c_lflag &= ~(ICANON | ECHO);
+        tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+        oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
+        fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
+
+        ch = getchar();
+        
+        if (ch != EOF) {
+            ungetc(ch, stdin);
+            hit = 1;
+        }
+
+        tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+        fcntl(STDIN_FILENO, F_SETFL, oldf);
+
+        return hit;
+    }
+    // getch 대체
+    int getch(void) {
+        struct termios oldattr, newattr;
+        int ch;
+        tcgetattr(STDIN_FILENO, &oldattr);
+        newattr = oldattr;
+        newattr.c_lflag &= ~(ICANON | ECHO);
+        tcsetattr(STDIN_FILENO, TCSANOW, &newattr);
+        ch = getchar();
+        tcsetattr(STDIN_FILENO, TCSANOW, &oldattr);
+        return ch;
+    }
+#endif
+
+// 공통 함수들 (OS 무관)
 void textcolor(int color) {
-  // Linux에서는 컬러를 ANSI escape code로 처리할 수 있음. 여기서는 무시.
+    // Linux에서는 컬러를 ANSI escape code로 처리할 수 있음. 여기서는 무시.
 }
 
 void gotoxy(int x, int y) {
-  printf("\033[%d;%dH", y, x);
-  fflush(stdout);
+    printf("\033[%d;%dH", y, x);
+    fflush(stdout);
 }
-
-void delay(int ms) {
-  usleep(ms * 1000);
-}
-
-// kbhit 대체 (non-blocking 키 입력 확인)
-int kbhit(void) {
-  struct termios oldt, newt;
-  int ch;
-  int oldf;
-  int hit = 0;
-
-  tcgetattr(STDIN_FILENO, &oldt);
-  newt = oldt;
-  newt.c_lflag &= ~(ICANON | ECHO);
-  tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-  oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
-  fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
-
-  ch = getchar();
-  
-  if (ch != EOF) {
-    ungetc(ch, stdin);
-    hit = 1;
-  }
-
-  tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-  fcntl(STDIN_FILENO, F_SETFL, oldf);
-
-  return hit;
-}
-
-// getch 대체
-int getch(void) {
-  struct termios oldattr, newattr;
-  int ch;
-  tcgetattr(STDIN_FILENO, &oldattr);
-  newattr = oldattr;
-  newattr.c_lflag &= ~(ICANON | ECHO);
-  tcsetattr(STDIN_FILENO, TCSANOW, &newattr);
-  ch = getchar();
-  tcsetattr(STDIN_FILENO, TCSANOW, &oldattr);
-  return ch;
-}
-
 // random 대체
 int my_random(int n) {
-  if (n <= 0) return 0;
-  return rand() % n;
+    if (n <= 0) return 0;
+    return rand() % n;
 }
-
 // randomize 대체
 void randomize() {
-  srand(time(NULL));
+    srand(time(NULL));
 }
 
 struct monster_struct {
@@ -147,6 +166,11 @@ struct my_struct {
 int cheat=0,l_m,count1,count2; 
 int main() { 
   int a;
+  #ifdef _WIN32
+        // Windows 콘솔을 UTF-8 모드로 설정
+        SetConsoleOutputCP(65001);  // UTF-8 출력
+        SetConsoleCP(65001);        // UTF-8 입력
+  #endif
 	randomize();
 	cheat=0;
 	while(1)
