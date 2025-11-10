@@ -598,8 +598,12 @@ void Condition() {
   }
   printf("\n━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━┻━━━━━━━━━━┻━━━━━━━━━━━━");
   printf("\n\n\n  < E N T E R >");
-  getch();
-  getch();
+  #ifdef WIN32
+      getch();
+  #else
+    getch();
+    getch();
+  #endif
   return;
 }
 
