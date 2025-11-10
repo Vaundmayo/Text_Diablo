@@ -302,6 +302,7 @@ void Battle() {
   {
     char data;
     clrscr();
+    printf("\n");
     printf("  ┏━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━┓\n");
     printf("  ┃  A C T 1 ┃  A C T 2 ┃  A C T 3 ┃  A C T 4 ┃\n");
     printf("  ┣━━━━━━━━━━╋━━━━━━━━━━╋━━━━━━━━━━╋━━━━━━━━━━┫\n");
@@ -314,7 +315,7 @@ void Battle() {
     printf("  ┗━━━━━━━━━━┻━━━━━━━━━━┻━━━━━━━━━━┻━━━━━━━━━━┛\n");
 
     printf("Select Quest Number(1~%2d):",user.wh);
-    gotoxy(27,11);scanf("%d",&l);
+    gotoxy(27,12);scanf("%d",&l);
     if(l<0 || l>user.wh) {
       printf("\n You can't go there....");getch();continue;
     }
