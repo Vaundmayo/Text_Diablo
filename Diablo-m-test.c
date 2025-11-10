@@ -423,6 +423,7 @@ void Weapon_Store() {
   int i,l;
   while(1) {
     clrscr();
+    printf("\n");
     printf("             M    E    N    U     POWER  BONUS-HP  BONUS-MP   G O L D\n");
     printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
     for(i=0;i<count1;i++)
@@ -430,7 +431,7 @@ void Weapon_Store() {
     printf("%d.Out\n",count1+1);
     printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     printf("\nWhat do you Need? :    GOLD: %5d",user.gold);
-    gotoxy(20,5+count1);scanf("%d",&l);
+    gotoxy(20,6+count1);scanf("%d",&l);
     if(l < 1 || l> count1+1 ) continue;
     if(l == count1+1 ) break;
     if(weapon[l-1].cost > user.gold && l>0 && l<count1+1) {
@@ -454,15 +455,16 @@ void Defence_Store() {
   int i,l;
   while(1) {
     clrscr();
+    printf("\n");
     printf("             M    E    N    U    DEFENCE BONUS-HP  BONUS-MP   G O L D\n");
-    printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
     for(i=0;i<count2;i++)
   	printf("%d.%30s     [%4d]  [%4d]  [%4d]   [%4d]\n",i+1,defence[i].name,defence[i].defence,defence[i].hp,defence[i].mp,defence[i].cost);
     printf("%d.Out\n",count2+1);
     printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     printf("\n*디펜스는 20 까지로 제한됩니다.");
     printf("\nWhat do you Need? :    GOLD: %5d",user.gold);
-    gotoxy(20,6+count2);scanf("%d",&l);
+    gotoxy(20,7+count2);scanf("%d",&l);
     if(l < 1 || l> count2+1 ) continue;
     if(l == count2+1 ) break;
     if(defence[l-1].cost > user.gold && l>0 && l<count1+1) {
