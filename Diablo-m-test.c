@@ -188,6 +188,11 @@ int main() {
   	printf("\n            ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
   	gotoxy(35,16);scanf("%d",&a);
   	if(a>0 && a<=3) break;
+    else {
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF);
+        continue;
+    }
 	}
   if(a==1) Opening(); 
   if(a==2) Load(); 
@@ -261,6 +266,11 @@ void Play_1() {
     if( q==3) Weapon_Store();
     if( q==5) Battle();
     if( q==1008) cheatcenter();
+    else {
+      int c;
+      while ((c = getchar()) != '\n' && c != EOF);
+      continue;
+    }
   }
   return;
 }
@@ -341,6 +351,11 @@ void Battle() {
     if(l==20)  fp24=fopen("Quest4_2.dat","rt");
     if(l==21)  fp24=fopen("Quest4_3.dat","rt");
     if(l==0) break;
+    else {
+      int c;
+      while ((c = getchar()) != '\n' && c != EOF);
+      continue;
+    }
     if(l>0 && l<=user.wh)
     {
       clrscr();
@@ -432,8 +447,13 @@ void Weapon_Store() {
     printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     printf("\nWhat do you Need? :    GOLD: %5d",user.gold);
     gotoxy(20,6+count1);scanf("%d",&l);
-    if(l < 1 || l> count1+1 ) continue;
     if(l == count1+1 ) break;
+    if(l > 0 && l < count1+1 ) {
+    } else {
+      int c;
+      while ((c = getchar()) != '\n' && c != EOF);
+      continue;
+    }
     if(weapon[l-1].cost > user.gold && l>0 && l<count1+1) {
       printf("\n Need More Money");getch();continue;
     } else {
@@ -465,8 +485,13 @@ void Defence_Store() {
     printf("\n*디펜스는 20 까지로 제한됩니다.");
     printf("\nWhat do you Need? :    GOLD: %5d",user.gold);
     gotoxy(20,7+count2);scanf("%d",&l);
-    if(l < 1 || l> count2+1 ) continue;
     if(l == count2+1 ) break;
+    if(l > 0 && l < count2+1 ) {
+    } else {
+      int c;
+      while ((c = getchar()) != '\n' && c != EOF);
+      continue;
+    }
     if(defence[l-1].cost > user.gold && l>0 && l<count1+1) {
       printf("\n Need More Money");getch();continue;
     } else {
@@ -503,8 +528,13 @@ void Item_store()  {
     printf("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     printf("\nWhat do you Need? :    GOLD: %5d",user.gold);
     gotoxy(20,14);scanf("%d",&l);
-    if(l <= 0 || l>= 10 ) continue;
     if(l == 9 ) break;
+    if(l > 0 && l < 10 ) {
+    } else {
+      int c;
+      while ((c = getchar()) != '\n' && c != EOF);
+      continue;
+    }
     if(cost[l-1] > user.gold && l>0 && l<9) {
       clrscr();printf("\n Need More Money");getch();continue;
     } else {
@@ -648,62 +678,71 @@ void Opening() {
   getch();
   printf("Press Enter to Continue...");
   getch();
-
-	clrscr();
-	printf("\n\n\n\n\n");
-	printf("\n           ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
-	printf("\n           ┃                                          ┃");
-	printf("\n           ┃                                          ┃");
-	printf("\n           ┃            Choose Your Character         ┃");
-	printf("\n           ┃                                          ┃");
-	printf("\n           ┃                 1. Amazon                ┃");
-	printf("\n           ┃                 2. Sorceress             ┃");
-	printf("\n           ┃                 3. Necromancer           ┃");
-	printf("\n           ┃   Press Input number:                    ┃");
-	printf("\n           ┃                                          ┃");
-	printf("\n           ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
-	gotoxy(37,15);scanf("%d",&ch);
-	user.gold=0;
-	if(ch==1)	{
-  	strcpy(user.name,"Amazon");
-  	user.cs=1;
-  	user.lv=1;
-  	user.nhp=user.hp=my_random(28)+25;
-  	user.nmp=user.mp=my_random(15)+5;
-  	user.attack=my_random(8)+10;
-  	user.exp=my_random(8*user.lv*user.lv)+100;
-  	user.defence=0;
-  	user.wh=1;
-	}
-	if(ch==2)	{
-  	strcpy(user.name,"Sorceress");
-  	user.cs=2;
-  	user.lv=1;
-  	user.nhp=user.hp=my_random(20)+10;
-  	user.nmp=user.mp=my_random(20)+30;
-  	user.attack=my_random(8)+5;
-  	user.exp=my_random(8*user.lv*user.lv)+100;
-  	user.defence=0;
-  	user.wh=1;
-	}
-
-	if(ch==3)	{
-  	strcpy(user.name,"Necromancer");
-  	user.cs=3;
-  	user.lv=1;
-  	user.nhp=user.hp=my_random(20)+15;
-  	user.nmp=user.mp=my_random(20)+25;
-  	user.attack=my_random(8)+7;
-  	user.exp=my_random(8*user.lv*user.lv)+100;
-  	user.defence=0;
-  	user.wh=1;
-	}
+  while(1){
+    clrscr();
+	  printf("\n\n\n\n\n");
+	  printf("\n           ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+	  printf("\n           ┃                                          ┃");
+	  printf("\n           ┃                                          ┃");
+	  printf("\n           ┃            Choose Your Character         ┃");
+	  printf("\n           ┃                                          ┃");
+	  printf("\n           ┃                 1. Amazon                ┃");
+	  printf("\n           ┃                 2. Sorceress             ┃");
+	  printf("\n           ┃                 3. Necromancer           ┃");
+	  printf("\n           ┃   Press Input number:                    ┃");
+	  printf("\n           ┃                                          ┃");
+	  printf("\n           ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+	  user.gold=0;
+    gotoxy(37,15);scanf("%d",&ch);
+    if(ch==1)	{
+  	  strcpy(user.name,"Amazon");
+  	  user.cs=1;
+  	  user.lv=1;
+  	  user.nhp=user.hp=my_random(28)+25;
+  	  user.nmp=user.mp=my_random(15)+5;
+  	  user.attack=my_random(8)+10;
+  	  user.exp=my_random(8*user.lv*user.lv)+100;
+  	  user.defence=0;
+  	  user.wh=1;
+      break;
+	  }
+	  if(ch==2)	{
+  	  strcpy(user.name,"Sorceress");
+  	  user.cs=2;
+  	  user.lv=1;
+  	  user.nhp=user.hp=my_random(20)+10;
+  	  user.nmp=user.mp=my_random(20)+30;
+  	  user.attack=my_random(8)+5;
+  	  user.exp=my_random(8*user.lv*user.lv)+100;
+  	  user.defence=0;
+  	  user.wh=1;
+      break;
+	  }
+	  if(ch==3)	{
+  	  strcpy(user.name,"Necromancer");
+  	  user.cs=3;
+  	  user.lv=1;
+  	  user.nhp=user.hp=my_random(20)+15;
+  	  user.nmp=user.mp=my_random(20)+25;
+  	  user.attack=my_random(8)+7;
+  	  user.exp=my_random(8*user.lv*user.lv)+100;
+  	  user.defence=0;
+  	  user.wh=1;
+      break;
+	  }
+    else {
+      int c;
+      while ((c = getchar()) != '\n' && c != EOF);
+      continue;
+    }
+  }
   user.gold=500;
 	for(i=0;i<8;i++)
 	  user.item[i]=0;
   fclose(fp0);
   return;
-}
+  }
+	
 
 void set() {
 
@@ -756,7 +795,12 @@ void set() {
     gotoxy(1,11);printf("                               ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛  ");
     gotoxy(30,12);printf("Leave Monster: %d",l_m);
     gotoxy(1,12);printf("Battle Order(1~4): ");scanf("%d",&input);
-    if(input<1 || input>4) continue;
+    if(input > 0 && input < 5) {}
+    else {
+      int c;
+      while ((c =getchar()) != '\n' && c != EOF);
+      continue;
+    }
     switch(input) 
     { 
       case 1: M_A(); break;
