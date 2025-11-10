@@ -455,7 +455,7 @@ void Defence_Store() {
   while(1) {
     clrscr();
     printf("             M    E    N    U    DEFENCE BONUS-HP  BONUS-MP   G O L D\n");
-    printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
     for(i=0;i<count2;i++)
   	printf("%d.%30s     [%4d]  [%4d]  [%4d]   [%4d]\n",i+1,defence[i].name,defence[i].defence,defence[i].hp,defence[i].mp,defence[i].cost);
     printf("%d.Out\n",count2+1);
