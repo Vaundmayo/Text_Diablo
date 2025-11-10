@@ -248,6 +248,7 @@ void Play_1() {
     if(user.defence>20) {
       user.defence=20;printf("디펜스가 20이상이 되면 자동으로 디펜스가 하락됩니다.");getch();clrscr();
     }
+    printf("\n");
     printf("━━━━━━━━━━━━━━━━━━━━━━ Camp ━━━━━━━━━━━━━━━━━━━━━━\n\n");
     printf("                    1. Condition                  \n");
     printf("                    2. Item Store                 \n");
@@ -257,7 +258,7 @@ void Play_1() {
     printf("                    6. Save                       \n");
     printf("                    7. Exit                       \n");
     printf("   Please Insert Number:                          \n");
-    gotoxy(26,10);scanf("%d",&q);
+    gotoxy(26,11);scanf("%d",&q);
     if( q==2) Item_store();
     if( q==4) Defence_Store();
     if( q==6) Save_option();
@@ -267,6 +268,7 @@ void Play_1() {
     if( q==5) Battle();
     if( q==1008) cheatcenter();
     else {
+      q = 0;
       int c;
       while ((c = getchar()) != '\n' && c != EOF);
       continue;
@@ -351,11 +353,6 @@ void Battle() {
     if(l==20)  fp24=fopen("Quest4_2.dat","rt");
     if(l==21)  fp24=fopen("Quest4_3.dat","rt");
     if(l==0) break;
-    else {
-      int c;
-      while ((c = getchar()) != '\n' && c != EOF);
-      continue;
-    }
     if(l>0 && l<=user.wh)
     {
       clrscr();
@@ -392,6 +389,12 @@ void Battle() {
     if(l==19) Q4_1();
     if(l==20) Q4_2();
     if(l==21) Q4_3();
+    else {
+      l = 22;
+      int c;
+      while ((c = getchar()) != '\n' && c != EOF);
+      continue;
+    }
     }
   return;
   }
@@ -598,12 +601,7 @@ void Condition() {
   }
   printf("\n━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━┻━━━━━━━━━━┻━━━━━━━━━━━━");
   printf("\n\n\n  < E N T E R >");
-  #ifdef WIN32
-      getch();
-  #else
-    getch();
-    getch();
-  #endif
+  getch();
   return;
 }
 
