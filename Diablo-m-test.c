@@ -1259,7 +1259,7 @@ void Q2_4() {
   monster.nhp=monster.hp;
 	monster.mp=my_random(40)+110;
   monster.nmp=monster.mp;
-  monster.gold=my_random(50)+20;
+  monster.gold=my_random(50)+50;
   monster.defence=6;
   monster.exp=my_random(100)+160;
   set();
