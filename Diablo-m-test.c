@@ -1964,32 +1964,51 @@ void Mg()  {
     }
   }
     printf("\n━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━┻━━━━━━━━━━┻━━━━━━━━━━━━");
-  xx:
-  printf("\n0.Cancel ,Magic Order(1~%d):",s);
-  scanf(" %d",&in);
+while(1){
+    printf("\n0.Cancel ,Magic Order(1~%d):",s);
+    if(scanf("%d", &in)!= 1){
+      int _c;
+      while((_c = getchar()) != '\n' && _c != EOF);
+      continue;
+    }
 
-  if(in<0 || in>s || magic[in-1].ump>user.nmp) goto xx;
-	if(in==0) {
-	printf("\n 그런것은 불가능 합니다.<Enter>");
-  	getch();
-  	set();
-	}	else  {
-  	w=my_random(3);
-  	if(user.cs==1) bonus=my_random(magic[in-1].power+user.lv*4);
-  	if(user.cs==2) bonus=my_random(magic[in-1].power+user.lv*8);
-  	if(user.cs==3) bonus=my_random(magic[in-1].power+user.lv*6);
+    { int _c; while ((_c = getchar()) != '\n' && _c != EOF); }
+
+    if (in < 0 || in > s) {
+      printf("\n잘못된 입력입니다. <Enter>");
+      getch();
+      continue;
+    }
+
+    if (in == 0) {
+      printf("\n취소합니다. <Enter>");
+      getch();
+      return;
+    }
+
+    if (magic[in-1].ump > user.nmp) {
+      printf("\nMP가 부족합니다. <Enter>");
+      getch();
+      continue;
+    }
+
+    w=my_random(3);
+    if(user.cs==1) bonus=my_random(magic[in-1].power+user.lv*4);
+    if(user.cs==2) bonus=my_random(magic[in-1].power+user.lv*8);
+    if(user.cs==3) bonus=my_random(magic[in-1].power+user.lv*6);
 
     switch(w)
-  	{
-    	case 0:printf("\n 피에 굶주린 자들이여 성스러운 %s 를 받아라~~~",magic[in-1].name); break;
-	    case 1:printf("\n 나의 주먹을 맛 보아라~~~~%s!!!!",magic[in-1].name);break;
-	    case 2:printf("\n %s!!! 하핫 아프지? ",magic[in-1].name);break;
-  	}
-	  printf("\n 당신은 %s 에게 %d 만큼의 데미지를 가합니다",monster.name,magic[in-1].power+bonus);
-  	monster.nhp-=(magic[in-1].power+bonus);
-  	user.nmp-=magic[in-1].ump;
-  	getch();
-	}
-  if(monster.nhp>0) h_m();
-  return;
+    {
+      case 0:printf("\n 피에 굶주린 자들이여 성스러운 %s 를 받아라~~~",magic[in-1].name); break;
+      case 1:printf("\n 나의 주먹을 맛 보아라~~~~%s!!!!",magic[in-1].name);break;
+      case 2:printf("\n %s!!! 하핫 아프지? ",magic[in-1].name);break;
+    }
+    printf("\n 당신은 %s 에게 %d 만큼의 데미지를 가합니다",monster.name,magic[in-1].power+bonus);
+    monster.nhp-=(magic[in-1].power+bonus);
+    user.nmp-=magic[in-1].ump;
+    getch();
+    
+    if(monster.nhp>0) h_m();
+    return;
+  }
 }
