@@ -896,7 +896,7 @@ void  Q1_1()  {
 void Q1_2() {
   l_m=2;
   monster.lv=3;
-  monster.hp=my_random(10)+150;
+  monster.hp=my_random(20)+50;
   monster.nhp=monster.hp;
 	monster.mp=my_random(20)+30;
   monster.nmp=monster.mp;
@@ -909,7 +909,7 @@ void Q1_2() {
   if(escape) return;
 
   monster.lv=8;
-  monster.hp=my_random(40)+210;
+  monster.hp=my_random(40)+100;
   monster.nhp=monster.hp;
 	monster.mp=my_random(30)+50;
   monster.nmp=monster.mp;
@@ -931,7 +931,7 @@ void Q1_3() {
   monster.lv=10;
   strcpy(monster.name,"Saladin");
   monster.attack=my_random(7)+4;
-  monster.hp=my_random(70)+250;
+  monster.hp=my_random(70)+200;
   monster.nhp=monster.hp;
 	monster.mp=my_random(30)+60;
   monster.nmp=monster.mp;
@@ -964,7 +964,7 @@ void Q1_4() {
   }
   strcpy(monster.name,"데까드케인");
   monster.attack=my_random(6)+4;
-  monster.hp=my_random(60)+400;
+  monster.hp=my_random(60)+200;
   monster.nhp=monster.hp;
 	monster.mp=my_random(30)+100;
   monster.nmp=monster.mp;
@@ -1049,7 +1049,7 @@ void Q1_6() {
   l_m=1;
   strcpy(monster.name,"안때리얼");
   monster.attack=my_random(6)+14;
-  monster.hp=my_random(300)+770;
+  monster.hp=my_random(300)+500;
   monster.nhp=monster.hp;
 	monster.mp=my_random(50)+120;
   monster.nmp=monster.mp;
@@ -1310,7 +1310,7 @@ void Q2_5() {
 
   strcpy(monster.name,"1학년 담임");
   monster.attack=my_random(10)+13;
-  monster.hp=my_random(50)+180;
+  monster.hp=my_random(50)+170;
   monster.nhp=monster.hp;
 	monster.mp=my_random(50)+130;
   monster.nmp=monster.mp;
@@ -1322,7 +1322,7 @@ void Q2_5() {
 
   strcpy(monster.name,"2학년 담임");
   monster.attack=my_random(15)+14;
-  monster.hp=my_random(50)+180;
+  monster.hp=my_random(50)+170;
   monster.nhp=monster.hp;
 	monster.mp=my_random(50)+130;
   monster.nmp=monster.mp;
@@ -1334,7 +1334,7 @@ void Q2_5() {
 
   strcpy(monster.name,"3학년 담임");
   monster.attack=my_random(20)+15;
-  monster.hp=my_random(50)+180;
+  monster.hp=my_random(50)+170;
   monster.nhp=monster.hp;
 	monster.mp=my_random(50)+130;
   monster.nmp=monster.mp;
@@ -1404,7 +1404,7 @@ void Q2_6() {
   monster.lv=20;
   strcpy(monster.name,"듀리엘");
   monster.attack=my_random(40)+20;
-  monster.hp=my_random(400)+770;
+  monster.hp=my_random(400)+700;
   monster.nhp=monster.hp;
 	monster.mp=my_random(60)+220;
   monster.nmp=monster.mp;
@@ -1424,7 +1424,7 @@ void Q3_1() {
 
   strcpy(monster.name,"DJ증오");
   monster.attack=my_random(35)+15;
-  monster.hp=my_random(55)+200;
+  monster.hp=my_random(55)+180;
   monster.nhp=monster.hp;
 	monster.mp=my_random(50)+160;
   monster.nmp=monster.mp;
@@ -1437,7 +1437,7 @@ void Q3_1() {
   for(i=0;i<2;i++){
     strcpy(monster.name,"방송요정");
     monster.attack=my_random(25)+15;
-    monster.hp=my_random(50)+200;
+    monster.hp=my_random(50)+170;
     monster.nhp=monster.hp;
 	  monster.mp=my_random(40)+100;
     monster.nmp=monster.mp;
@@ -1451,7 +1451,7 @@ void Q3_1() {
   for(i=0;i<2;i++){
     strcpy(monster.name,"증오의 주파수");
     monster.attack=my_random(25)+15;
-    monster.hp=my_random(50)+200;
+    monster.hp=my_random(50)+170;
     monster.nhp=monster.hp;
 	  monster.mp=my_random(40)+100;
     monster.nmp=monster.mp;
@@ -1472,7 +1472,7 @@ void Q3_2() {
 
   strcpy(monster.name,"마녀 징징이");
   monster.attack=my_random(40)+20;
-  monster.hp=my_random(55)+220;
+  monster.hp=my_random(55)+200;
   monster.nhp=monster.hp;
 	monster.mp=my_random(50)+120;
   monster.nmp=monster.mp;
@@ -1485,7 +1485,7 @@ void Q3_2() {
   for(i=0;i<5;i++){
     strcpy(monster.name,"라면 슬라임");
     monster.attack=my_random(30)+15;
-    monster.hp=my_random(60)+150;
+    monster.hp=my_random(80)+80;
     monster.nhp=monster.hp;
 	  monster.mp=my_random(50)+120;
     monster.nmp=monster.mp;
@@ -1507,7 +1507,7 @@ void Q3_3() {
   for(i=0;i<2;i++){
     strcpy(monster.name,"잉어킹");
     monster.attack=my_random(40)+20;
-    monster.hp=my_random(50)+190;
+    monster.hp=my_random(60)+140;
     monster.nhp=monster.hp;
 	  monster.mp=my_random(50)+140;
     monster.nmp=monster.mp;
@@ -1521,7 +1521,7 @@ void Q3_3() {
   for(i=0;i<2;i++){
     strcpy(monster.name,"지옥어");
     monster.attack=my_random(40)+20;
-    monster.hp=my_random(50)+190;
+    monster.hp=my_random(60)+140;
     monster.nhp=monster.hp;
 	  monster.mp=my_random(50)+140;
     monster.nmp=monster.mp;
@@ -1535,7 +1535,7 @@ void Q3_3() {
   for(i=0;i<2;i++){
     strcpy(monster.name,"붕어독");
     monster.attack=my_random(40)+20;
-    monster.hp=my_random(50)+190;
+    monster.hp=my_random(60)+140;
     monster.nhp=monster.hp;
 	  monster.mp=my_random(50)+140;
     monster.nmp=monster.mp;
@@ -1549,7 +1549,7 @@ void Q3_3() {
   for(i=0;i<2;i++){
     strcpy(monster.name,"고등등");
     monster.attack=my_random(40)+20;
-    monster.hp=my_random(50)+190;
+    monster.hp=my_random(60)+140;
     monster.nhp=monster.hp;
 	  monster.mp=my_random(50)+140;
     monster.nmp=monster.mp;
@@ -1563,7 +1563,7 @@ void Q3_3() {
   for(i=0;i<2;i++){
     strcpy(monster.name,"치치독");
     monster.attack=my_random(40)+20;
-    monster.hp=my_random(50)+190;
+    monster.hp=my_random(60)+140;
     monster.nhp=monster.hp;
 	  monster.mp=my_random(50)+140;
     monster.nmp=monster.mp;
@@ -1747,7 +1747,7 @@ void Q3_6() {
   l_m=1;
   strcpy(monster.name,"메피스토");
   monster.attack=my_random(60)+30;
-  monster.hp=my_random(450)+800;
+  monster.hp=my_random(450)+750;
   monster.nhp=monster.hp;
 	monster.mp=my_random(50)+350;
   monster.nmp=monster.mp;
@@ -1766,7 +1766,7 @@ void Q4_1() {
   monster.lv=28;
   for(i=0;i<2;i++) {
     strcpy(monster.name,"하수 좀비");
-    monster.attack=my_random(20)+20;
+    monster.attack=my_random(30)+10;
     monster.hp=my_random(50)+200;
     monster.nhp=monster.hp;
 	  monster.mp=my_random(40)+250;
@@ -1779,7 +1779,7 @@ void Q4_1() {
   }
   for(i=0;i<2;i++)  {
     strcpy(monster.name,"오염 슬라임");
-    monster.attack=my_random(20)+20;
+    monster.attack=my_random(20)+15;
     monster.hp=my_random(50)+200;
     monster.nhp=monster.hp;
 	  monster.mp=my_random(40)+250;
@@ -1793,7 +1793,7 @@ void Q4_1() {
 
   for(i=0;i<3;i++)  {
     strcpy(monster.name,"하수 감시자");
-    monster.attack=my_random(30)+20;
+    monster.attack=my_random(20)+20;
     monster.hp=my_random(50)+180;
     monster.nhp=monster.hp;
 	  monster.mp=my_random(40)+250;
@@ -1813,7 +1813,7 @@ void Q4_2() {
   monster.lv=34;
   for(i=0;i<2;i++) {
     strcpy(monster.name,"중수 좀비");
-    monster.attack=my_random(20)+30;
+    monster.attack=my_random(30)+15;
     monster.hp=my_random(50)+220;
     monster.nhp=monster.hp;
 	  monster.mp=my_random(40)+300;
@@ -1826,7 +1826,7 @@ void Q4_2() {
   }
   for(i=0;i<3;i++)  {
     strcpy(monster.name,"오염 슬라임");
-    monster.attack=my_random(20)+30;
+    monster.attack=my_random(20)+15;
     monster.hp=my_random(50)+220;
     monster.nhp=monster.hp;
 	  monster.mp=my_random(40)+300;
@@ -1840,7 +1840,7 @@ void Q4_2() {
 
   for(i=0;i<4;i++)  {
     strcpy(monster.name,"중수 감시자");
-    monster.attack=my_random(40)+30;
+    monster.attack=my_random(40)+20;
     monster.hp=my_random(100)+180;
     monster.nhp=monster.hp;
 	  monster.mp=my_random(40)+300;
@@ -1876,7 +1876,7 @@ void Q4_3() {
   monster.lv=40;
   for(i=0;i<2;i++) {
     strcpy(monster.name,"고수 감시자");
-    monster.attack=my_random(40)+40;
+    monster.attack=my_random(40)+15;
     monster.hp=my_random(50)+250;
     monster.nhp=monster.hp;
 	  monster.mp=my_random(150)+320;
@@ -1888,7 +1888,7 @@ void Q4_3() {
     if(escape) return;
   }
   strcpy(monster.name,"디아블로");
-  monster.attack=my_random(80)+50;
+  monster.attack=my_random(60)+30;
   monster.hp=my_random(500)+880;
   monster.nhp=monster.hp;
 	monster.mp=my_random(40)+320;
