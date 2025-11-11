@@ -409,7 +409,7 @@ void Potion() {
   printf("\n  4.Super Mana Potion        [ %3d ]",user.item[3]);
   printf("\n  5.Great Healing Potion     [ %3d ]",user.item[4]);
   printf("\n  6.Great Mana Potion        [ %3d ]",user.item[5]);
-  printf("\n  7.Full Helating Potion     [ %3d ]",user.item[6]);
+  printf("\n  7.Full Healing Potion      [ %3d ]",user.item[6]);
   printf("\n  8.Full Mana Potion         [ %3d ]",user.item[7]);
   printf("\n  9.OUT  		         ");
   printf("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -429,6 +429,7 @@ void Potion() {
   		case 8: user.nmp=user.mp;user.item[7]--;break;
 	  }
   h_m();
+  getch();
   } else {
     printf("You don't have that potion!!!");
     getch();
@@ -525,7 +526,7 @@ void Item_store()  {
     printf("\n  4.Super Mana Potion      [ 100]    [ %3d ]",user.item[3]);
     printf("\n  5.Great Healing Potion   [ 500]    [ %3d ]",user.item[4]);
     printf("\n  6.Great Mana Potion      [ 500]    [ %3d ]",user.item[5]);
-    printf("\n  7.Full Helating Potion   [1000]    [ %3d ]",user.item[6]);
+    printf("\n  7.Full Healing Potion    [1000]    [ %3d ]",user.item[6]);
     printf("\n  8.Full Mana Potion       [1000]    [ %3d ]",user.item[7]);
     printf("\n  9.OUT  		         ");
     printf("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
