@@ -603,7 +603,7 @@ void Condition() {
   printf("          L e  v  e  l: %d\n",user.lv);
   printf("          H          P: %d/%d\n",user.nhp,user.hp);
   printf("          M          P: %d/%d\n",user.nmp,user.mp);
-  printf("          Attack Point: %d ~ %d\n",user.attack-2,user.attack+2);
+  printf("          Attack Point: %d ~ %d\n",user.attack-2,user.attack+1); // 공격력 범위(-2 ~ +1)
   printf("          DefencePoint: %d\n",user.defence);
   printf("          Need     Exp: %d \n",user.exp);
   printf("          G   O  L   D: %d \n",user.gold);
@@ -824,8 +824,7 @@ void set() {
       case 4: printf("\n도망가기 성공! 캠프로 복귀합니다.");
               fflush(stdout);
 
-              int c;
-              while((c=getchar()) != '\n' && c != EOF) {} // 버퍼에 남은 '\n' 제거
+              clearbuff(); // 버퍼에 남은 '\n' 제거
               getch();
               escape = 1;
               return;
