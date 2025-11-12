@@ -157,6 +157,7 @@ struct my_struct {
 	int defence; //방어력
 	int wh; //현재 웨이포인트
 	int code; //저장 코드
+	int weapon_have[20]; // 무기 보유 여부(1:보유, 배열:무기 개수)
 } user; //유저 구조체
 
 
@@ -449,7 +450,11 @@ void Weapon_Store() {
     printf("%d.Out\n",count1+1);
     printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     printf("\nWhat do you Need? :    GOLD: %5d",user.gold);
-    gotoxy(20,6+count1);scanf("%d",&l);
+    gotoxy(20,6+count1);
+    if (scanf("%d",&l) != 1) {
+      int _c; while ((_c = getchar()) != '\n' && _c != EOF);
+      continue;
+    }
     if(l == count1+1 ) break;
     if(l > 0 && l < count1+1 ) {
     } else {
@@ -457,19 +462,28 @@ void Weapon_Store() {
       while ((c = getchar()) != '\n' && c != EOF);
       continue;
     }
-    if(weapon[l-1].cost > user.gold && l>0 && l<count1+1) {
-      printf("\n Need More Money");getch();continue;
-    } else {
-      user.gold-=weapon[l-1].cost;
-      user.hp+=weapon[l-1].hp_bonus;
-      user.mp+=weapon[l-1].mp_bonus;
-      user.attack+=weapon[l-1].power;
-      clrscr();
-      printf("\nH    P: %3d + %3d -> %3d",user.hp-weapon[l-1].hp_bonus,weapon[l-1].hp_bonus,user.hp);
-      printf("\nM    P: %3d + %3d -> %3d",user.mp-weapon[l-1].mp_bonus,weapon[l-1].mp_bonus,user.mp);
-      printf("\nATTACK: %3d + %3d -> %3d",user.attack-weapon[l-1].power,weapon[l-1].power,user.attack);
+    if(user.weapon_have[l-1] == 1){
+      printf("\n 이미 이 무기를 보유하고 있습니다. [ENTER]");
+      { int _c; while ((_c = getchar()) != '\n' && _c != EOF); }
       getch();
+      continue;
     }
+    if(weapon[l-1].cost > user.gold && l>0 && l<count1+1) {
+      printf("\n Need More Money. [ENTER]");
+      {int _c; while ((_c = getchar()) != '\n' && _c != EOF);}
+      getch();continue;
+    }
+    user.weapon_have[l-1] = 1; // 무기 보유를 표시함
+    user.gold-=weapon[l-1].cost;
+    user.hp+=weapon[l-1].hp_bonus;
+    user.mp+=weapon[l-1].mp_bonus;
+    user.attack+=weapon[l-1].power;
+    {int _c; while ((_c = getchar()) != '\n' && _c != EOF);}
+    printf("\n%s를 구입했습니다! [ENTER]", weapon[l - 1].name);
+    printf("\nH    P: %3d + %3d -> %3d",user.hp-weapon[l-1].hp_bonus,weapon[l-1].hp_bonus,user.hp);
+    printf("\nM    P: %3d + %3d -> %3d",user.mp-weapon[l-1].mp_bonus,weapon[l-1].mp_bonus,user.mp);
+    printf("\nATTACK: %3d + %3d -> %3d",user.attack-weapon[l-1].power,weapon[l-1].power,user.attack);
+    getch();
   }
  return;
 }
@@ -574,6 +588,8 @@ void Save_option() {
   fprintf(fp3,"\n%d",user.item[5]);
   fprintf(fp3,"\n%d",user.item[6]);
   fprintf(fp3,"\n%d",user.item[7]);
+  for (int i = 0; i < 20; i++)
+    fprintf(fp3, "\n%d", user.weapon_have[i]);
   fclose(fp3);  
   printf("\n 세이브가 완료되었습니다<Enter>");
   getch();
@@ -644,6 +660,8 @@ void Load() {
   fscanf(fp1,"%d",&user.item[5]);
   fscanf(fp1,"%d",&user.item[6]);
   fscanf(fp1,"%d",&user.item[7]);
+  for (int i = 0; i < 20; i++)
+    fscanf(fp1, "%d", &user.weapon_have[i]);
 
   strcpy(user.name,name);
   user.gold=gold;
