@@ -26,6 +26,7 @@ void Play_1(); void Item_store(); void Defence_Store(); void Save_option(); void
 void Weapon_Store(); void Battle(); void cheatcenter();
 void M_A(); void Mg();
 int my_random(int n);
+void clearbuff();
 
 // Windows 전용 함수 대체
 #ifdef _WIN32
@@ -104,6 +105,11 @@ int my_random(int n) {
 // randomize 대체
 void randomize() {
     srand(time(NULL));
+}
+
+void clearbuff() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
 }
 
 struct monster_struct {
@@ -189,8 +195,7 @@ int main() {
   	gotoxy(35,16);scanf("%d",&a);
   	if(a>0 && a<=3) break;
     else {
-        int c;
-        while ((c = getchar()) != '\n' && c != EOF);
+        clearbuff();
         continue;
     }
 	}
@@ -334,8 +339,7 @@ void Battle() {
     if(l > 0 && l <= user.wh) {} 
       else {
       printf("\n You can't go there....");
-      int c;
-      while ((c = getchar()) != '\n' && c != EOF);
+      clearbuff();
       getch();
       continue;
     }
@@ -455,8 +459,7 @@ void Weapon_Store() {
     if(l == count1+1 ) break;
     if(l > 0 && l < count1+1 ) {
     } else {
-      int c;
-      while ((c = getchar()) != '\n' && c != EOF);
+      clearbuff();
       continue;
     }
     if(weapon[l-1].cost > user.gold && l>0 && l<count1+1) {
@@ -493,8 +496,7 @@ void Defence_Store() {
     if(l == count2+1 ) break;
     if(l > 0 && l < count2+1 ) {
     } else {
-      int c;
-      while ((c = getchar()) != '\n' && c != EOF);
+      clearbuff();
       continue;
     }
     if(defence[l-1].cost > user.gold && l>0 && l<count1+1) {
@@ -536,8 +538,7 @@ void Item_store()  {
     if(l == 9 ) break;
     if(l > 0 && l < 10 ) {
     } else {
-      int c;
-      while ((c = getchar()) != '\n' && c != EOF);
+      clearbuff();
       continue;
     }
     if(cost[l-1] > user.gold && l>0 && l<9) {
@@ -735,8 +736,7 @@ void Opening() {
       break;
 	  }
     else {
-      int c;
-      while ((c = getchar()) != '\n' && c != EOF);
+      clearbuff();
       continue;
     }
   }
@@ -801,8 +801,7 @@ void set() {
     gotoxy(1,12);printf("Battle Order(1~4): ");scanf("%d",&input);
     if(input > 0 && input < 5) {}
     else {
-      int c;
-      while ((c =getchar()) != '\n' && c != EOF);
+      clearbuff();
       continue;
     }
     switch(input) 
