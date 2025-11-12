@@ -195,8 +195,7 @@ int main() {
   	gotoxy(35,16);scanf("%d",&a);
   	if(a>0 && a<=3) break;
     else {
-        int c;
-        while ((c = getchar()) != '\n' && c != EOF);
+        clearbuff();
         continue;
     }
 	}
@@ -243,7 +242,7 @@ void Insert_defence() {
 
 void Play_1() { 
   int i,q;
-  while(1){
+  while(1){ // 재귀 삭제 (무한 호출 방지)
     clrscr();
     user.nhp=user.hp;
     user.nmp=user.mp;
@@ -274,9 +273,8 @@ void Play_1() {
     if( q==5) Battle();
     if( q==1008) cheatcenter();
     else {
-      q = 0;
-      int c;
-      while ((c = getchar()) != '\n' && c != EOF);
+      q = 0; // q 초기화
+      clearbuff();
       continue;
     }
   }
@@ -289,7 +287,7 @@ void cheatcenter()
   clrscr();
   while(1)
   {
-    printf("\n1.Money + 10000");
+    printf("\n1.Money + 100000");
     printf("\n2.Att + 1");
     printf("\n3.Hp + 10");
     printf("\n4.Mp + 10");
@@ -299,13 +297,14 @@ void cheatcenter()
     if(ca<1 || ca>5) continue;
     switch(ca)
     {
-      case 1: user.gold+=10000;break;
+      case 1: user.gold+=100000;break;
       case 2: user.attack+=1;break;
       case 3: user.hp+=10;break;
       case 4: user.mp+=10;break;
       case 5: user.wh+=1;break;
     }
   printf("\nComplete!");
+  clearbuff();
   getch();
   break;
   }
@@ -315,7 +314,7 @@ return;
 void Battle() {
   escape = 0; // 도망 상태 초기화
   int l,time;
-  FILE *fp24;
+  FILE *fp24 = NULL;
   while(1)
   {
     char data;
@@ -332,10 +331,17 @@ void Battle() {
     printf("  ┃6. Quest 6┃12 Quest 6┃18.Quest 6┃          ┃\n");
     printf("  ┗━━━━━━━━━━┻━━━━━━━━━━┻━━━━━━━━━━┻━━━━━━━━━━┛\n");
 
+    l = 22; // 잘못 입력시 이전 l값이 유지됨, 초기화
+
     printf("Select Quest Number(1~%2d):",user.wh);
     gotoxy(27,12);scanf("%d",&l);
-    if(l<0 || l>user.wh) {
-      printf("\n You can't go there....");getch();continue;
+    if(l==0) break;
+    if(l > 0 && l <= user.wh) {} // 입력이 유효한 범위일 경우 아무 작업 X
+      else { // 범위 밖일 경우 continue
+      printf("\n You can't go there....");
+      clearbuff();
+      getch();
+      continue;
     }
     if(l==1)   fp24=fopen("Quest1_1.dat","rt");
     if(l==2)   fp24=fopen("Quest1_2.dat","rt");
@@ -358,11 +364,16 @@ void Battle() {
     if(l==19)  fp24=fopen("Quest4_1.dat","rt");
     if(l==20)  fp24=fopen("Quest4_2.dat","rt");
     if(l==21)  fp24=fopen("Quest4_3.dat","rt");
-    if(l==0) break;
     if(l>0 && l<=user.wh)
     {
       clrscr();
       printf("\n ");
+      if(fp24 == NULL) { // fp24가 fopen에 실패하거나 NULL인 경우
+        printf("파일이 없거나 경로가 잘못되었습니다. <Enter>\n");
+        clearbuff();
+        getch();
+        continue;
+      }
       time=30;
       while(fscanf(fp24,"%c",&data) != EOF) 
       {
@@ -372,8 +383,8 @@ void Battle() {
       }
       if(time==0) getch();
       getch();
+      fclose(fp24); // 파일 닫기 누락 -> 추가
     }
-    fclose(fp24);
     if(l==1) Q1_1();
     if(l==2) Q1_2();
     if(l==3) Q1_3();
@@ -395,12 +406,6 @@ void Battle() {
     if(l==19) Q4_1();
     if(l==20) Q4_2();
     if(l==21) Q4_3();
-    else {
-      l = 22;
-      int c;
-      while ((c = getchar()) != '\n' && c != EOF);
-      continue;
-    }
     }
   return;
   }
@@ -435,7 +440,6 @@ void Potion() {
   		case 8: user.nmp=user.mp;user.item[7]--;break;
 	  }
   h_m();
-  getch();
   } else {
     printf("You don't have that potion!!!");
     getch();
@@ -449,34 +453,34 @@ void Weapon_Store() {
   while(1) {
     clrscr();
     printf("\n");
-    printf("             M    E    N    U     POWER  BONUS-HP  BONUS-MP   G O L D\n");
+    printf("             M    E    N    U         POWER  BONUS-HP  BONUS-MP  G O L D\n");
     printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
     for(i=0;i<count1;i++)
-  	printf("%d.%30s     [%4d]  [%4d]  [%4d]   [%4d]\n",i+1,weapon[i].name,weapon[i].power,weapon[i].hp_bonus,weapon[i].mp_bonus,weapon[i].cost);
-    printf("%d.Out\n",count1+1);
+  	printf("%2d.%30s     [%4d]  [%4d]  [%4d]   [%4d]\n",i+1,weapon[i].name,weapon[i].power,weapon[i].hp_bonus,weapon[i].mp_bonus,weapon[i].cost);
+    printf("%2d.Out\n",count1+1);
     printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-    printf("\nWhat do you Need? :    GOLD: %5d",user.gold);
+    printf("\nWhat do you Need? :    GOLD: %5d  Power: %3d",user.gold,user.attack); // 현재 공격력 출력
     gotoxy(20,6+count1);scanf("%d",&l);
     if(l == count1+1 ) break;
     if(l > 0 && l < count1+1 ) {
     } else {
-      int c;
-      while ((c = getchar()) != '\n' && c != EOF);
+      clearbuff();
       continue;
     }
     if(weapon[l-1].cost > user.gold && l>0 && l<count1+1) {
-      printf("\n Need More Money");getch();continue;
+      printf("\n Need More Money");clearbuff();getch();continue;
     } else {
     user.gold-=weapon[l-1].cost;
     user.hp+=weapon[l-1].hp_bonus;
     user.mp+=weapon[l-1].mp_bonus;
     user.attack+=weapon[l-1].power;
       clrscr();
-    printf("\nH    P: %3d + %3d -> %3d",user.hp-weapon[l-1].hp_bonus,weapon[l-1].hp_bonus,user.hp);
-    printf("\nM    P: %3d + %3d -> %3d",user.mp-weapon[l-1].mp_bonus,weapon[l-1].mp_bonus,user.mp);
-    printf("\nATTACK: %3d + %3d -> %3d",user.attack-weapon[l-1].power,weapon[l-1].power,user.attack);
-    getch();
-  }
+      printf("\nH    P: %3d + %3d -> %3d",user.hp-weapon[l-1].hp_bonus,weapon[l-1].hp_bonus,user.hp);
+      printf("\nM    P: %3d + %3d -> %3d",user.mp-weapon[l-1].mp_bonus,weapon[l-1].mp_bonus,user.mp);
+      printf("\nATTACK: %3d + %3d -> %3d",user.attack-weapon[l-1].power,weapon[l-1].power,user.attack);
+      clearbuff();
+      getch();
+    }
   }
  return;
 }
@@ -486,24 +490,27 @@ void Defence_Store() {
   while(1) {
     clrscr();
     printf("\n");
-    printf("             M    E    N    U    DEFENCE BONUS-HP  BONUS-MP   G O L D\n");
+    printf("             M    E    N    U        DEFENCE BONUS-HP BONUS-MP G O L D\n");
     printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
     for(i=0;i<count2;i++)
-  	printf("%d.%30s     [%4d]  [%4d]  [%4d]   [%4d]\n",i+1,defence[i].name,defence[i].defence,defence[i].hp,defence[i].mp,defence[i].cost);
-    printf("%d.Out\n",count2+1);
+  	printf("%2d.%30s     [%4d]  [%4d]  [%4d]   [%4d]\n",i+1,defence[i].name,defence[i].defence,defence[i].hp,defence[i].mp,defence[i].cost);
+    printf("%2d.Out\n",count2+1);
     printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     printf("\n*디펜스는 20 까지로 제한됩니다.");
-    printf("\nWhat do you Need? :    GOLD: %5d",user.gold);
+    if(user.defence>=20) { // 디펜스 20 초과 시 조정
+      printf(" *디펜스가 20이 넘었으므로 20으로 조정됩니다.* \"%d -> 20\"",user.defence);
+      user.defence=20;
+    }
+    printf("\nWhat do you Need? :    GOLD: %5d  Defence: %2d",user.gold,user.defence); // 현재 디펜스 출력
     gotoxy(20,7+count2);scanf("%d",&l);
     if(l == count2+1 ) break;
     if(l > 0 && l < count2+1 ) {
     } else {
-      int c;
-      while ((c = getchar()) != '\n' && c != EOF);
+      clearbuff();
       continue;
     }
     if(defence[l-1].cost > user.gold && l>0 && l<count1+1) {
-      printf("\n Need More Money");getch();continue;
+      printf("\n Need More Money");clearbuff();getch();continue;
     } else {
       user.gold-=defence[l-1].cost;
       user.hp+=defence[l-1].hp;
@@ -513,6 +520,7 @@ void Defence_Store() {
       printf("\nH    P : %3d + %3d -> %3d",user.hp-defence[l-1].hp,defence[l-1].hp,user.hp);
       printf("\nM    P : %3d + %3d -> %3d",user.mp-defence[l-1].mp,defence[l-1].mp,user.mp);
       printf("\nDEFENCE: %3d + %3d -> %3d",user.defence-defence[l-1].defence,defence[l-1].defence,user.defence);
+      clearbuff();
       getch();
     }
   }
@@ -536,16 +544,21 @@ void Item_store()  {
     printf("\n  8.Full Mana Potion       [1000]    [ %3d ]",user.item[7]);
     printf("\n  9.OUT  		         ");
     printf("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-    printf("\nWhat do you Need? :    GOLD: %5d",user.gold);
+    printf("\nWhat do you Need? :    GOLD: %5d  ",user.gold);
     gotoxy(20,14);scanf("%d",&l);
     if(l == 9 ) break;
     if(l > 0 && l < 10 ) {
     } else {
-      int c;
-      while ((c = getchar()) != '\n' && c != EOF);
+      clearbuff();
       continue;
     }
-    if(cost[l-1] > user.gold && l>0 && l<9) {
+    if(user.item[l-1] == 20) { // 포션 최대 개수 제한
+      printf("\n %d번 포션을 더 가질 수 없습니다!", l );
+      clearbuff();
+      getch();
+      continue;
+    }
+    else if(cost[l-1] > user.gold && l>0 && l<9) {
       clrscr();printf("\n Need More Money");getch();continue;
     } else {
       user.gold-=cost[l-1];
@@ -595,7 +608,7 @@ void Condition() {
   printf("          L e  v  e  l: %d\n",user.lv);
   printf("          H          P: %d/%d\n",user.nhp,user.hp);
   printf("          M          P: %d/%d\n",user.nmp,user.mp);
-  printf("          Attack Point: %d ~ %d\n",user.attack-2,user.attack+2);
+  printf("          Attack Point: %d ~ %d\n",user.attack-2,user.attack+1); // 공격력 범위(-2 ~ +1)
   printf("          DefencePoint: %d\n",user.defence);
   printf("          Need     Exp: %d \n",user.exp);
   printf("          G   O  L   D: %d \n",user.gold);
@@ -740,8 +753,7 @@ void Opening() {
       break;
 	  }
     else {
-      int c;
-      while ((c = getchar()) != '\n' && c != EOF);
+      clearbuff();
       continue;
     }
   }
@@ -800,14 +812,13 @@ void set() {
     gotoxy(1,7);printf("                               ┃   Att : %4d~%4d        %4d~%4d       ┃",user.attack-2,user.attack+2,monster.attack-2,monster.attack+2);
     gotoxy(1,8);printf("                               ┃   Def :  %4d             %4d           ┃",user.defence,monster.defence);
     gotoxy(1,9);printf("                               ┃   EXP :  %5d           %5d           ┃",user.exp,monster.exp);
-    gotoxy(1,10);printf("                               ┃   Gold:                  %5d           ┃",monster.gold);
+    gotoxy(1,10);printf("                               ┃   Gold:  %6d          %5d           ┃",user.gold,monster.gold);
     gotoxy(1,11);printf("                               ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛  ");
     gotoxy(30,12);printf("Leave Monster: %d",l_m);
     gotoxy(1,12);printf("Battle Order(1~4): ");scanf("%d",&input);
     if(input > 0 && input < 5) {}
     else {
-      int c;
-      while ((c =getchar()) != '\n' && c != EOF);
+      clearbuff();
       continue;
     }
     switch(input) 
@@ -818,9 +829,7 @@ void set() {
       case 4: printf("\n도망가기 성공! 캠프로 복귀합니다.");
               fflush(stdout);
 
-              int c;
-              while((c=getchar()) != '\n' && c != EOF) {} // 버퍼에 남은 '\n' 제거
-              
+              clearbuff(); // 버퍼에 남은 '\n' 제거
               getch();
               escape = 1;
               return;
@@ -1957,6 +1966,7 @@ void h_m() {
 	  case 5: printf("%s의 잔인한 죽음의 손길이 당신의 죽음을 재촉합니다..순식간에 %d만큼의 엄청난 충격이 몸으로 흡수됩니다...",monster.name,md*2);md=md*2;break;
   }
   user.nhp-=md;
+  clearbuff();
   getch();
   return;
   }
