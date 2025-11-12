@@ -1972,13 +1972,18 @@ void h_m() {
   }
 
 void Mg()  {
-  int bonus,w,in,i,s=0;
+  int bonus,w,in,i;
   while(1){
+    int s = 0;
+    int mg_idx[8];
+
     gotoxy(1,14);printf("     Can Private Magic: \n ");
     printf("\n━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━");
     for(i=0;i<8;i++)  {
         if(magic[i].lv <= user.lv)  {
-          printf("\n%2d.NAME: %12s   ┃ Damage: %3d  ┃ Mp: %3d  ┃  Level: %3d",s+1,magic[i].name,magic[i].power,magic[i].ump,magic[i].lv);s++;
+          printf("\n%2d.NAME: %12s   ┃ Damage: %3d  ┃ Mp: %3d  ┃  Level: %3d",s+1,magic[i].name,magic[i].power,magic[i].ump,magic[i].lv);
+          mg_idx[s] = i;
+          s++;
       }
     }
     printf("\n━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━┻━━━━━━━━━━┻━━━━━━━━━━━━");
@@ -1997,7 +2002,9 @@ void Mg()  {
       continue;
     }
 
-    if (magic[in-1].ump > user.nmp) {
+    int sel = mg_idx[in-1];
+
+    if (magic[sel].ump > user.nmp) {
       printf("\nMP가 부족합니다. <Enter>");
       getch();
       continue;
