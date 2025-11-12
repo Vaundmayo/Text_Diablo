@@ -336,8 +336,8 @@ void Battle() {
     printf("Select Quest Number(1~%2d):",user.wh);
     gotoxy(27,12);scanf("%d",&l);
     if(l==0) break;
-    if(l > 0 && l <= user.wh) {} 
-      else {
+    if(l > 0 && l <= user.wh) {} // 입력이 유효한 범위일 경우 아무 작업 X
+      else { // 범위 밖일 경우 continue
       printf("\n You can't go there....");
       clearbuff();
       getch();
@@ -368,6 +368,12 @@ void Battle() {
     {
       clrscr();
       printf("\n ");
+      if(fp24 == NULL) { // fp24가 fopen에 실패하거나 NULL인 경우
+        printf("파일이 없거나 경로가 잘못되었습니다. <Enter>\n");
+        clearbuff();
+        getch();
+        continue;
+      }
       time=30;
       while(fscanf(fp24,"%c",&data) != EOF) 
       {
