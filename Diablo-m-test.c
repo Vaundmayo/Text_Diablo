@@ -26,6 +26,7 @@ void Play_1(); void Item_store(); void Defence_Store(); void Save_option(); void
 void Weapon_Store(); void Battle(); void cheatcenter();
 void M_A(); void Mg();
 int my_random(int n);
+void clearbuff();
 
 // Windows 전용 함수 대체
 #ifdef _WIN32
@@ -104,6 +105,11 @@ int my_random(int n) {
 // randomize 대체
 void randomize() {
     srand(time(NULL));
+}
+
+void clearbuff() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
 }
 
 struct monster_struct {
@@ -461,16 +467,16 @@ void Weapon_Store() {
     if(weapon[l-1].cost > user.gold && l>0 && l<count1+1) {
       printf("\n Need More Money");getch();continue;
     } else {
-      user.gold-=weapon[l-1].cost;
-      user.hp+=weapon[l-1].hp_bonus;
-      user.mp+=weapon[l-1].mp_bonus;
-      user.attack+=weapon[l-1].power;
+    user.gold-=weapon[l-1].cost;
+    user.hp+=weapon[l-1].hp_bonus;
+    user.mp+=weapon[l-1].mp_bonus;
+    user.attack+=weapon[l-1].power;
       clrscr();
-      printf("\nH    P: %3d + %3d -> %3d",user.hp-weapon[l-1].hp_bonus,weapon[l-1].hp_bonus,user.hp);
-      printf("\nM    P: %3d + %3d -> %3d",user.mp-weapon[l-1].mp_bonus,weapon[l-1].mp_bonus,user.mp);
-      printf("\nATTACK: %3d + %3d -> %3d",user.attack-weapon[l-1].power,weapon[l-1].power,user.attack);
-      getch();
-    }
+    printf("\nH    P: %3d + %3d -> %3d",user.hp-weapon[l-1].hp_bonus,weapon[l-1].hp_bonus,user.hp);
+    printf("\nM    P: %3d + %3d -> %3d",user.mp-weapon[l-1].mp_bonus,weapon[l-1].mp_bonus,user.mp);
+    printf("\nATTACK: %3d + %3d -> %3d",user.attack-weapon[l-1].power,weapon[l-1].power,user.attack);
+    getch();
+  }
   }
  return;
 }
@@ -1957,40 +1963,53 @@ void h_m() {
 
 void Mg()  {
   int bonus,w,in,i,s=0;
-  gotoxy(1,14);printf("     Can Private Magic: \n ");
-  printf("\n━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━");
-  for(i=0;i<8;i++)  {
-      if(magic[i].lv <= user.lv)  {
-        printf("\n%2d.NAME: %12s   ┃ Damage: %3d  ┃ Mp: %3d  ┃  Level: %3d",s+1,magic[i].name,magic[i].power,magic[i].ump,magic[i].lv);s++;
+  while(1){
+    gotoxy(1,14);printf("     Can Private Magic: \n ");
+    printf("\n━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━");
+    for(i=0;i<8;i++)  {
+        if(magic[i].lv <= user.lv)  {
+          printf("\n%2d.NAME: %12s   ┃ Damage: %3d  ┃ Mp: %3d  ┃  Level: %3d",s+1,magic[i].name,magic[i].power,magic[i].ump,magic[i].lv);s++;
+      }
     }
-  }
     printf("\n━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━┻━━━━━━━━━━┻━━━━━━━━━━━━");
-  xx:
-  printf("\n0.Cancel ,Magic Order(1~%d):",s);
-  scanf(" %d",&in);
+    printf("\n0.Cancel ,Magic Order(1~%d):",s);
+    scanf("%d", &in);
 
-  if(in<0 || in>s || magic[in-1].ump>user.nmp) goto xx;
-	if(in==0) {
-	printf("\n 그런것은 불가능 합니다.<Enter>");
-  	getch();
-  	set();
-	}	else  {
-  	w=my_random(3);
-  	if(user.cs==1) bonus=my_random(magic[in-1].power+user.lv*4);
-  	if(user.cs==2) bonus=my_random(magic[in-1].power+user.lv*8);
-  	if(user.cs==3) bonus=my_random(magic[in-1].power+user.lv*6);
+    if (in == 0) {
+      return;
+    }
+
+    if (in > 0 && in <= s) {}
+    else {
+      printf("\n잘못된 입력입니다. <Enter>");
+      clearbuff();
+      getch();
+      continue;
+    }
+
+    if (magic[in-1].ump > user.nmp) {
+      printf("\nMP가 부족합니다. <Enter>");
+      getch();
+      continue;
+    }
+
+    w=my_random(3);
+    if(user.cs==1) bonus=my_random(magic[in-1].power+user.lv*4);
+    if(user.cs==2) bonus=my_random(magic[in-1].power+user.lv*8);
+    if(user.cs==3) bonus=my_random(magic[in-1].power+user.lv*6);
 
     switch(w)
-  	{
-    	case 0:printf("\n 피에 굶주린 자들이여 성스러운 %s 를 받아라~~~",magic[in-1].name); break;
-	    case 1:printf("\n 나의 주먹을 맛 보아라~~~~%s!!!!",magic[in-1].name);break;
-	    case 2:printf("\n %s!!! 하핫 아프지? ",magic[in-1].name);break;
-  	}
-	  printf("\n 당신은 %s 에게 %d 만큼의 데미지를 가합니다",monster.name,magic[in-1].power+bonus);
-  	monster.nhp-=(magic[in-1].power+bonus);
-  	user.nmp-=magic[in-1].ump;
-  	getch();
-	}
-  if(monster.nhp>0) h_m();
-  return;
+    {
+      case 0:printf("\n 피에 굶주린 자들이여 성스러운 %s 를 받아라~~~",magic[in-1].name); break;
+      case 1:printf("\n 나의 주먹을 맛 보아라~~~~%s!!!!",magic[in-1].name);break;
+      case 2:printf("\n %s!!! 하핫 아프지? ",magic[in-1].name);break;
+    }
+    printf("\n 당신은 %s 에게 %d 만큼의 데미지를 가합니다",monster.name,magic[in-1].power+bonus);
+    monster.nhp-=(magic[in-1].power+bonus);
+    user.nmp-=magic[in-1].ump;
+    getch();
+    
+    if(monster.nhp>0) h_m();
+    return;
+  }
 }
