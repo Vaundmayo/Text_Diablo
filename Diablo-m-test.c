@@ -446,8 +446,8 @@ void Weapon_Store() {
     printf("             M    E    N    U     POWER  BONUS-HP  BONUS-MP   G O L D\n");
     printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
     for(i=0;i<count1;i++)
-  	printf("%d.%30s     [%4d]  [%4d]  [%4d]   [%4d]\n",i+1,weapon[i].name,weapon[i].power,weapon[i].hp_bonus,weapon[i].mp_bonus,weapon[i].cost);
-    printf("%d.Out\n",count1+1);
+  	printf("%2d.%30s     [%4d]  [%4d]  [%4d]   [%4d]\n",i+1,weapon[i].name,weapon[i].power,weapon[i].hp_bonus,weapon[i].mp_bonus,weapon[i].cost);
+    printf("%2d.Out\n",count1+1);
     printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     printf("\nWhat do you Need? :    GOLD: %5d",user.gold);
     gotoxy(20,6+count1);scanf("%d",&l);
@@ -483,8 +483,8 @@ void Defence_Store() {
     printf("             M    E    N    U    DEFENCE BONUS-HP  BONUS-MP   G O L D\n");
     printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
     for(i=0;i<count2;i++)
-  	printf("%d.%30s     [%4d]  [%4d]  [%4d]   [%4d]\n",i+1,defence[i].name,defence[i].defence,defence[i].hp,defence[i].mp,defence[i].cost);
-    printf("%d.Out\n",count2+1);
+  	printf("%2d.%30s     [%4d]  [%4d]  [%4d]   [%4d]\n",i+1,defence[i].name,defence[i].defence,defence[i].hp,defence[i].mp,defence[i].cost);
+    printf("%2d.Out\n",count2+1);
     printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     printf("\n*디펜스는 20 까지로 제한됩니다.");
     printf("\nWhat do you Need? :    GOLD: %5d",user.gold);
@@ -794,7 +794,7 @@ void set() {
     gotoxy(1,7);printf("                               ┃   Att : %4d~%4d        %4d~%4d       ┃",user.attack-2,user.attack+2,monster.attack-2,monster.attack+2);
     gotoxy(1,8);printf("                               ┃   Def :  %4d             %4d           ┃",user.defence,monster.defence);
     gotoxy(1,9);printf("                               ┃   EXP :  %5d           %5d           ┃",user.exp,monster.exp);
-    gotoxy(1,10);printf("                               ┃   Gold:                  %5d           ┃",monster.gold);
+    gotoxy(1,10);printf("                               ┃   Gold:  %6d          %5d           ┃",user.gold,monster.gold);
     gotoxy(1,11);printf("                               ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛  ");
     gotoxy(30,12);printf("Leave Monster: %d",l_m);
     gotoxy(1,12);printf("Battle Order(1~4): ");scanf("%d",&input);
