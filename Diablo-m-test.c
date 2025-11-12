@@ -237,7 +237,7 @@ void Insert_defence() {
 
 void Play_1() { 
   int i,q;
-  while(1){
+  while(1){ // 재귀 삭제
     clrscr();
     user.nhp=user.hp;
     user.nmp=user.mp;
@@ -309,7 +309,7 @@ return;
 void Battle() {
   escape = 0; // 도망 상태 초기화
   int l,time;
-  FILE *fp24;
+  FILE *fp24 = NULL;
   while(1)
   {
     char data;
@@ -326,10 +326,18 @@ void Battle() {
     printf("  ┃6. Quest 6┃12 Quest 6┃18.Quest 6┃          ┃\n");
     printf("  ┗━━━━━━━━━━┻━━━━━━━━━━┻━━━━━━━━━━┻━━━━━━━━━━┛\n");
 
+    l = 22; // 잘못 입력시 이전 l값이 유지됨, 초기화
+
     printf("Select Quest Number(1~%2d):",user.wh);
     gotoxy(27,12);scanf("%d",&l);
-    if(l<0 || l>user.wh) {
-      printf("\n You can't go there....");getch();continue;
+    if(l==0) break;
+    if(l > 0 && l <= user.wh) {} 
+      else {
+      printf("\n You can't go there....");
+      int c;
+      while ((c = getchar()) != '\n' && c != EOF);
+      getch();
+      continue;
     }
     if(l==1)   fp24=fopen("Quest1_1.dat","rt");
     if(l==2)   fp24=fopen("Quest1_2.dat","rt");
@@ -352,7 +360,6 @@ void Battle() {
     if(l==19)  fp24=fopen("Quest4_1.dat","rt");
     if(l==20)  fp24=fopen("Quest4_2.dat","rt");
     if(l==21)  fp24=fopen("Quest4_3.dat","rt");
-    if(l==0) break;
     if(l>0 && l<=user.wh)
     {
       clrscr();
@@ -366,8 +373,8 @@ void Battle() {
       }
       if(time==0) getch();
       getch();
+      fclose(fp24); // 파일 닫기 누락 -> 추가
     }
-    fclose(fp24);
     if(l==1) Q1_1();
     if(l==2) Q1_2();
     if(l==3) Q1_3();
@@ -389,12 +396,6 @@ void Battle() {
     if(l==19) Q4_1();
     if(l==20) Q4_2();
     if(l==21) Q4_3();
-    else {
-      l = 22;
-      int c;
-      while ((c = getchar()) != '\n' && c != EOF);
-      continue;
-    }
     }
   return;
   }
@@ -429,7 +430,7 @@ void Potion() {
   		case 8: user.nmp=user.mp;user.item[7]--;break;
 	  }
   h_m();
-  getch();
+  getch(); // 포션 메시지 출력 후 대기
   } else {
     printf("You don't have that potion!!!");
     getch();
@@ -814,7 +815,6 @@ void set() {
 
               int c;
               while((c=getchar()) != '\n' && c != EOF) {} // 버퍼에 남은 '\n' 제거
-              
               getch();
               escape = 1;
               return;
