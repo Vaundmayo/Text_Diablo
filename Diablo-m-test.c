@@ -242,7 +242,7 @@ void Insert_defence() {
 
 void Play_1() { 
   int i,q;
-  while(1){ // 재귀 삭제
+  while(1){ // 재귀 삭제 (무한 호출 방지)
     clrscr();
     user.nhp=user.hp;
     user.nmp=user.mp;
@@ -273,9 +273,8 @@ void Play_1() {
     if( q==5) Battle();
     if( q==1008) cheatcenter();
     else {
-      q = 0;
-      int c;
-      while ((c = getchar()) != '\n' && c != EOF);
+      q = 0; // q 초기화
+      clearbuff();
       continue;
     }
   }
@@ -288,7 +287,7 @@ void cheatcenter()
   clrscr();
   while(1)
   {
-    printf("\n1.Money + 10000");
+    printf("\n1.Money + 100000");
     printf("\n2.Att + 1");
     printf("\n3.Hp + 10");
     printf("\n4.Mp + 10");
@@ -298,13 +297,14 @@ void cheatcenter()
     if(ca<1 || ca>5) continue;
     switch(ca)
     {
-      case 1: user.gold+=10000;break;
+      case 1: user.gold+=100000;break;
       case 2: user.attack+=1;break;
       case 3: user.hp+=10;break;
       case 4: user.mp+=10;break;
       case 5: user.wh+=1;break;
     }
   printf("\nComplete!");
+  clearbuff();
   getch();
   break;
   }
@@ -448,13 +448,13 @@ void Weapon_Store() {
   while(1) {
     clrscr();
     printf("\n");
-    printf("             M    E    N    U     POWER  BONUS-HP  BONUS-MP   G O L D\n");
+    printf("             M    E    N    U         POWER  BONUS-HP  BONUS-MP  G O L D\n");
     printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
     for(i=0;i<count1;i++)
   	printf("%2d.%30s     [%4d]  [%4d]  [%4d]   [%4d]\n",i+1,weapon[i].name,weapon[i].power,weapon[i].hp_bonus,weapon[i].mp_bonus,weapon[i].cost);
     printf("%2d.Out\n",count1+1);
     printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-    printf("\nWhat do you Need? :    GOLD: %5d",user.gold);
+    printf("\nWhat do you Need? :    GOLD: %5d  Power: %3d",user.gold,user.attack); // 현재 공격력 출력
     gotoxy(20,6+count1);scanf("%d",&l);
     if(l == count1+1 ) break;
     if(l > 0 && l < count1+1 ) {
@@ -463,7 +463,7 @@ void Weapon_Store() {
       continue;
     }
     if(weapon[l-1].cost > user.gold && l>0 && l<count1+1) {
-      printf("\n Need More Money");getch();continue;
+      printf("\n Need More Money");clearbuff();getch();continue;
     } else {
       user.gold-=weapon[l-1].cost;
       user.hp+=weapon[l-1].hp_bonus;
@@ -473,6 +473,7 @@ void Weapon_Store() {
       printf("\nH    P: %3d + %3d -> %3d",user.hp-weapon[l-1].hp_bonus,weapon[l-1].hp_bonus,user.hp);
       printf("\nM    P: %3d + %3d -> %3d",user.mp-weapon[l-1].mp_bonus,weapon[l-1].mp_bonus,user.mp);
       printf("\nATTACK: %3d + %3d -> %3d",user.attack-weapon[l-1].power,weapon[l-1].power,user.attack);
+      clearbuff();
       getch();
     }
   }
@@ -484,14 +485,18 @@ void Defence_Store() {
   while(1) {
     clrscr();
     printf("\n");
-    printf("             M    E    N    U    DEFENCE BONUS-HP  BONUS-MP   G O L D\n");
+    printf("             M    E    N    U        DEFENCE BONUS-HP BONUS-MP G O L D\n");
     printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
     for(i=0;i<count2;i++)
   	printf("%2d.%30s     [%4d]  [%4d]  [%4d]   [%4d]\n",i+1,defence[i].name,defence[i].defence,defence[i].hp,defence[i].mp,defence[i].cost);
     printf("%2d.Out\n",count2+1);
     printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     printf("\n*디펜스는 20 까지로 제한됩니다.");
-    printf("\nWhat do you Need? :    GOLD: %5d",user.gold);
+    if(user.defence>=20) { // 디펜스 20 초과 시 조정
+      printf(" *디펜스가 20이 넘었으므로 20으로 조정됩니다.* \"%d -> 20\"",user.defence);
+      user.defence=20;
+    }
+    printf("\nWhat do you Need? :    GOLD: %5d  Defence: %2d",user.gold,user.defence); // 현재 디펜스 출력
     gotoxy(20,7+count2);scanf("%d",&l);
     if(l == count2+1 ) break;
     if(l > 0 && l < count2+1 ) {
@@ -500,7 +505,7 @@ void Defence_Store() {
       continue;
     }
     if(defence[l-1].cost > user.gold && l>0 && l<count1+1) {
-      printf("\n Need More Money");getch();continue;
+      printf("\n Need More Money");clearbuff();getch();continue;
     } else {
       user.gold-=defence[l-1].cost;
       user.hp+=defence[l-1].hp;
@@ -510,6 +515,7 @@ void Defence_Store() {
       printf("\nH    P : %3d + %3d -> %3d",user.hp-defence[l-1].hp,defence[l-1].hp,user.hp);
       printf("\nM    P : %3d + %3d -> %3d",user.mp-defence[l-1].mp,defence[l-1].mp,user.mp);
       printf("\nDEFENCE: %3d + %3d -> %3d",user.defence-defence[l-1].defence,defence[l-1].defence,user.defence);
+      clearbuff();
       getch();
     }
   }
@@ -533,7 +539,7 @@ void Item_store()  {
     printf("\n  8.Full Mana Potion       [1000]    [ %3d ]",user.item[7]);
     printf("\n  9.OUT  		         ");
     printf("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-    printf("\nWhat do you Need? :    GOLD: %5d",user.gold);
+    printf("\nWhat do you Need? :    GOLD: %5d  ",user.gold);
     gotoxy(20,14);scanf("%d",&l);
     if(l == 9 ) break;
     if(l > 0 && l < 10 ) {
@@ -541,7 +547,13 @@ void Item_store()  {
       clearbuff();
       continue;
     }
-    if(cost[l-1] > user.gold && l>0 && l<9) {
+    if(user.item[l-1] == 20) { // 포션 최대 개수 제한
+      printf("\n %d번 포션을 더 가질 수 없습니다!", l );
+      clearbuff();
+      getch();
+      continue;
+    }
+    else if(cost[l-1] > user.gold && l>0 && l<9) {
       clrscr();printf("\n Need More Money");getch();continue;
     } else {
       user.gold-=cost[l-1];
