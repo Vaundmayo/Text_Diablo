@@ -440,7 +440,6 @@ void Potion() {
   		case 8: user.nmp=user.mp;user.item[7]--;break;
 	  }
   h_m();
-  getch(); // 포션 메시지 출력 후 대기
   } else {
     printf("You don't have that potion!!!");
     getch();
@@ -1967,6 +1966,7 @@ void h_m() {
 	  case 5: printf("%s의 잔인한 죽음의 손길이 당신의 죽음을 재촉합니다..순식간에 %d만큼의 엄청난 충격이 몸으로 흡수됩니다...",monster.name,md*2);md=md*2;break;
   }
   user.nhp-=md;
+  clearbuff();
   getch();
   return;
   }
