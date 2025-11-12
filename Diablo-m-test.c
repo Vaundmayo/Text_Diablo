@@ -1988,8 +1988,9 @@ void Mg()  {
   if(in<0 || in>s || magic[in-1].ump>user.nmp) goto xx;
 	if(in==0) {
 	printf("\n 그런것은 불가능 합니다.<Enter>");
-  	getch();
-  	set();
+  clearbuff();
+  getch();
+  set();
 	}	else  {
   	w=my_random(3);
   	if(user.cs==1) bonus=my_random(magic[in-1].power+user.lv*4);
@@ -2005,6 +2006,7 @@ void Mg()  {
 	  printf("\n 당신은 %s 에게 %d 만큼의 데미지를 가합니다",monster.name,magic[in-1].power+bonus);
   	monster.nhp-=(magic[in-1].power+bonus);
   	user.nmp-=magic[in-1].ump;
+    clearbuff();
   	getch();
 	}
   if(monster.nhp>0) h_m();
