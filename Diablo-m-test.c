@@ -388,13 +388,12 @@ void Battle() {
     printf("  ┃6. Quest 6┃12 Quest 6┃18.Quest 6┃          ┃\n");
     printf("  ┗━━━━━━━━━━┻━━━━━━━━━━┻━━━━━━━━━━┻━━━━━━━━━━┛\n");
 
-    l = 22; // 잘못 입력시 이전 l값이 유지됨, 초기화
-
     printf("Select Quest Number(1~%2d):",user.wh);
     gotoxy(27,12);scanf("%d",&l); // 현재 wh 범위까지 선택 가능
     if(l==0) break;
     if(l > 0 && l <= user.wh) {} // 입력이 유효한 범위일 경우 아무 작업 X
       else { // 범위 밖일 경우 continue
+      l = -1; // 잘못 입력시 이전 l값이 유지됨, 초기화
       printf("\n You can't go there....");
       clearbuff();
       getch();
@@ -489,6 +488,14 @@ void Potion() {
   printf("\nWhat you eat? :  ");
   scanf("%d",&l);
   if(l==9) return; // 9번 누르면 전투 메뉴로 복귀
+  if(l > 0 && l < 9 ) { // 잘못 입력시 return
+  } else {
+    l = 0;
+    printf("\n잘못된 입력입니다. <Enter>");
+    clearbuff();
+    getch();
+    return;
+  }
   if(user.item[l-1] != 0)	{
 	  switch(l)
 	  {
@@ -504,6 +511,7 @@ void Potion() {
   h_m(); // 몬스터 반격
   } else {
     printf("You don't have that potion!!!"); // 포션이 없으면 알림
+    clearbuff();
     getch();
     set(); // 전투 메뉴로 복귀
   }
@@ -531,6 +539,7 @@ void Weapon_Store() {
     // 유효 범위 확인
     if(l > 0 && l < count1+1 ) {
     } else {
+      l = 0; // l 초기화
       clearbuff();
       continue;
     }
@@ -578,6 +587,7 @@ void Defence_Store() {
     // 유효 범위 검사
     if(l > 0 && l < count2+1 ) {
     } else {
+      l = 0; // l 초기화
       clearbuff();
       continue;
     }
@@ -2139,7 +2149,7 @@ void Mg()  {
     if (in > 0 && in <= s) {}
     else {
       in = -1; // 잘못된 입력
-      printf("\n잘못된 입력입니다. <Enter>");
+      printf("\n(1~%d) 범위내 숫자를 입력해주세요. <Enter>",s);
       clearbuff();
       getch();
       return;
