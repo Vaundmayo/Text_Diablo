@@ -1934,7 +1934,7 @@ void M_A()  {
   if(cr==3) {
   gotoxy(10,14);printf("풀 파워~! 크리티컬 어택 %d만큼의 데미지!",ud*3);
   monster.nhp=monster.nhp-(ud*3);
-  getch();
+  clearbuff();
   } else {
 	  if(ud==0) {
       gotoxy(10,14);printf(" ~~ ㅋㅋ..");
@@ -1943,8 +1943,10 @@ void M_A()  {
       monster.nhp-=ud;
 	  }
   }
-  getch();
   if(monster.nhp>0) h_m();
+  else {
+    getch();
+  }
   return;
 }
 
