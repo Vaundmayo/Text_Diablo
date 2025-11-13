@@ -2132,6 +2132,7 @@ void h_m() {
 void Mg()  {
   int bonus,w,in,i,s=0;
   while(1){
+    in = -1; // in 초기화
     gotoxy(1,14);printf("     Can Private Magic: \n ");
     printf("\n━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━");
     for(i=0;i<8;i++)  {
@@ -2150,7 +2151,6 @@ void Mg()  {
     // 1~s 범위 밖이면 잘못된 입력
     if (in > 0 && in <= s) {}
     else {
-      in = -1; // 잘못된 입력
       printf("\n(1~%d) 범위내 숫자를 입력해주세요. <Enter>",s);
       clearbuff();
       getch();
@@ -2158,7 +2158,6 @@ void Mg()  {
     }
     // MP 부족 체크
     if (magic[in-1].ump > user.nmp) {
-      in = -1; // 잘못된 입력
       printf("\nMP가 부족합니다. <Enter>");
       clearbuff();
       getch();
