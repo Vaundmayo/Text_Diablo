@@ -648,7 +648,7 @@ return;
 //  save_option : 현재 user를 savedata.sav 파일에 저장
 // ===================================================
 void Save_option() {
-  FILE *fp3;
+  FILE *fp3 = NULL;
   clrscr();
   // 세이브 무결성 코드 계산
   user.code=(user.lv+user.cs+user.nhp+user.nmp+user.gold+user.exp)/user.lv+user.lv;
@@ -714,7 +714,7 @@ void Condition() {
 //  insert_magic : 직업 따라 맞는 데이터 파일 열기
 // ==============================================
 void Insert_magic()  {
-	FILE *fp2;
+	FILE *fp2 = NULL;
 	int i;
   // 직업에 따른 다른 파일 선택
 	if(user.cs==1) fp2=fopen("Amamagic.dat","rt");
@@ -733,11 +733,11 @@ void Insert_magic()  {
 void Load() {
   char name[30];
   int code,lv,cs,nmp,defence,gold,mp,nhp,hp,exp,attack,wh;
-  FILE *fp1;
+  FILE *fp1 = NULL;
   clrscr();
   fp1=fopen("savedata.sav","rt");
 
-  if(fp1 == NULL) { // savedata 파일 없을 시 오류 메시지 출력, 종료
+  if(fp1 == NULL) { // savedata 파일 없을 시 오류 메시지 출력, 새 게임 시작
         printf("\n저장된 게임 파일(savedata.sav)을 찾을 수 없습니다.\n새 게임을 생성합니다. <Enter>");
         clearbuff();
         getch();
@@ -865,6 +865,7 @@ void Opening() {
 	  }
     else {
       // 1~3 이외는 다시 선택
+      ch = 0; // ch 초기화
       clearbuff();
       continue;
     }
