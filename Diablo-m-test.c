@@ -899,6 +899,7 @@ void set() {
   randomize(); // 매 턴 마다 랜덤
   while(1)  {
     clrscr();
+    input = 0; // 입력 초기화
     // 몬스터 죽었는지 확인
     if(monster.nhp<=0) {
 	    printf("\n 캬오~~凸 우케케케케케 꾸르르르르 끄억");
@@ -954,7 +955,6 @@ void set() {
     // 입력 검사
     if(input > 0 && input < 5) {}
     else {
-      input = 0; // 잘못 입력시 초기화
       clearbuff();
       continue;
     }
