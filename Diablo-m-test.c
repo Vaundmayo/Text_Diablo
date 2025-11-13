@@ -223,6 +223,7 @@ int main() {
     // 1~3 사이 값이면 메뉴선택 완료, 아니면 다시 입력
   	if(a>0 && a<=3) break;
     else {
+        a = 0; // a 초기화
         clearbuff(); // 잘못된 입력으로 남은 버퍼 제거
         continue;
     }
@@ -491,7 +492,7 @@ void Potion() {
   if(l > 0 && l < 9 ) { // 잘못 입력시 return
   } else {
     l = 0;
-    printf("\n잘못된 입력입니다. <Enter>");
+    printf("\n(1~9) 범위내 숫자를 입력해주세요. <Enter>");
     clearbuff();
     getch();
     return;
