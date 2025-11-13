@@ -738,10 +738,11 @@ void Load() {
   fp1=fopen("savedata.sav","rt");
 
   if(fp1 == NULL) { // savedata 파일 없을 시 오류 메시지 출력, 종료
-        printf("\n저장된 게임 파일(savedata.sav)을 찾을 수 없습니다.\n게임을 종료합니다. <Enter>");
+        printf("\n저장된 게임 파일(savedata.sav)을 찾을 수 없습니다.\n새 게임을 생성합니다. <Enter>");
         clearbuff();
         getch();
-        exit(1);
+        Opening();
+        return;
   }
   // 저장 시 순서대로 읽어오기
   fscanf(fp1,"%s",name);
