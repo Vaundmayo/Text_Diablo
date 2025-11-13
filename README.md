@@ -75,6 +75,9 @@ make
 
 ### 3.3 데이터 파일 구성
 
+* `weapon.qwe` : 상점 무기 목록
+* `defence.qwe` : 상점 방어구 목록
+* ~`magic.dat` : 직업별 마법 선택
 * `Quest1_1.dat` ~ `Quest4_3.dat` : 퀘스트별 시나리오 및 대사
 * `savedata.sav` : 플레이어 진행 상태
 * 모든 `.dat` 파일은 `fopen("Quest1_1.dat", "rt")` 형태로 읽는 텍스트 데이터 파일임
