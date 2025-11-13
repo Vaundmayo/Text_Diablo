@@ -954,6 +954,7 @@ void set() {
     // 입력 검사
     if(input > 0 && input < 5) {}
     else {
+      input = 0; // 잘못 입력시 초기화
       clearbuff();
       continue;
     }
