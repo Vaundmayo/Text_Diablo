@@ -6,7 +6,7 @@ CFLAGS = -Wall -g
 SRCS = Diablo-m-test.c
 
 # 생성할 실행 파일 이름
-TARGET = Diablo-m
+TARGET = diablo
 
 # 'make' 또는 'make all' 명령어로 실행 파일을 생성
 all: $(TARGET)

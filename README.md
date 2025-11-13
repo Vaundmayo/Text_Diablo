@@ -28,7 +28,7 @@
 ###  Windows
 
 ```bash
-gcc Diablo-m-test.c -o daiblo.exe
+gcc Diablo-m-test.c -o diablo.exe
 diablo.exe
 ```
 
