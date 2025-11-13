@@ -7,15 +7,17 @@
 
 // Windows 환경 감지
 #ifdef _WIN32
-    #include <windows.h>
-    #include <conio.h>
+    #include <windows.h> // Sleep 등
+    #include <conio.h> // getch(), kbhit() 등 입력 함수
 #else
     #include <unistd.h>
     #include <termios.h>
     #include <fcntl.h>
 #endif
 
-// 함수 선언
+// =============
+//  함수 선언
+// =============
 void Q1_1(); void Q1_2(); void Q1_3(); void Q1_4(); void Q1_5(); void Q1_6();
 void Q2_1(); void Q2_2(); void Q2_3(); void Q2_4(); void Q2_5(); void Q2_6();
 void Q3_1(); void Q3_2(); void Q3_3(); void Q3_4(); void Q3_5(); void Q3_6();
@@ -26,15 +28,21 @@ void Play_1(); void Item_store(); void Defence_Store(); void Save_option(); void
 void Weapon_Store(); void Battle(); void cheatcenter();
 void M_A(); void Mg();
 int my_random(int n);
-void clearbuff();
+void clearbuff(); // 입력 버퍼 비우기(잘못된 입력 처리)
+
+
+// ==================
+//  os별 함수 구현
+// ==================
 
 // Windows 전용 함수 대체
 #ifdef _WIN32
-    // Windows용 구현
+    // Windows용 화면 클리어
     void clrscr() {
         system("cls");
     }
     
+    // ms 단위 딜레이
     void delay(int ms) {
         Sleep(ms);
     }
@@ -48,6 +56,7 @@ void clearbuff();
         fflush(stdout);
     }
     
+    // ms 단위 딜레이. usleep은 마이크로초 단위 -> ms*1000
     void delay(int ms) {
         usleep(ms * 1000);
     }
@@ -107,11 +116,18 @@ void randomize() {
     srand(time(NULL));
 }
 
+// 입력 버퍼 비우기(엔터 등 남아있을때 처리)
 void clearbuff() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
+
+// =================
+//  구조체 정의
+// =================
+
+// 몬스터 정보
 struct monster_struct {
   char name[100];
   int lv; //레벨
@@ -125,6 +141,7 @@ struct monster_struct {
   int nmp; //현재 마나
 } monster; //몬스터 구조체
 
+// 마법 정보
 struct magic_struct {
   char name[100]; //마법 이름
   int power; //마법 공격력
@@ -132,6 +149,7 @@ struct magic_struct {
   int lv; //마법 레벨
 } magic[8]; //마법 구조체 배열
 
+// 방어구 정보
 struct defence_struct {
   char name[100]; //방어구 이름
   int defence; //방어력
@@ -140,6 +158,7 @@ struct defence_struct {
   int cost; //가격
 } defence[100]; //방어구 구조체 배열
 
+// 무기 정보
 struct weapon_struct { 
   char name[100]; //무기 이름
   int power; //공격력
@@ -148,6 +167,7 @@ struct weapon_struct {
   int cost; //가격
 } weapon[100]; //무기 구조체 배열
 
+// 플레이어 정보
 struct my_struct {
   char name[100]; //이름
 	int item[8]; //아이템 갯수
@@ -165,17 +185,23 @@ struct my_struct {
 	int code; //저장 코드
 } user; //유저 구조체
 
-
-int cheat=0,l_m,count1,count2; 
+// =================
+//  전역변수
+// =================
+int cheat=0,l_m,count1,count2;
 int escape = 0; // 도망가기 전역변수 선언
+
+// ==================
+//  main
+// ==================
 int main() { 
   int a;
   #ifdef _WIN32
-        // Windows 콘솔을 UTF-8 모드로 설정
+        // Windows 콘솔을 UTF-8 모드로 설정 (한글 깨짐 방지)
         SetConsoleOutputCP(65001);  // UTF-8 출력
         SetConsoleCP(65001);        // UTF-8 입력
   #endif
-	randomize();
+	randomize(); // 랜덤 시드 설정
 	cheat=0;
 	while(1)
   {
@@ -192,19 +218,22 @@ int main() {
   	printf("\n            ┃ Press Input number:                        ┃");
   	printf("\n            ┃                          Copy Left 2025    ┃");
   	printf("\n            ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
-  	gotoxy(35,16);scanf("%d",&a);
+  	gotoxy(35,16);scanf("%d",&a); // 메뉴 번호 입력
+
+    // 1~3 사이 값이면 메뉴선택 완료, 아니면 다시 입력
   	if(a>0 && a<=3) break;
     else {
-        clearbuff();
+        clearbuff(); // 잘못된 입력으로 남은 버퍼 제거
         continue;
     }
 	}
-  if(a==1) Opening(); 
-  if(a==2) Load(); 
+  if(a==1) Opening(); // 새 게임
+  if(a==2) Load(); // 불러오기
   if(a==3) {
     clrscr();
-    exit(0);
+    exit(0); // 프로그램 종료
   }
+
   Insert_magic(); 
   Insert_weapon();
   Insert_defence();
@@ -212,20 +241,28 @@ int main() {
   return 0;
 }
 
+// ===================
+//  무기 데이터
+// ===================
 void Insert_weapon() {
   int i;
-  FILE *fp13=fopen("weapon.qwe","r");
+  FILE *fp13=fopen("weapon.qwe","r"); // 텍스트 모드로 읽기
   if(fp13 == NULL) {
     printf("Error: Cannot open weapon.qwe\n");
     return;
 }
+  // 첫 줄 : 무기 개수
   fscanf(fp13,"%d",&count1);
+  // 최대 100개 무기 정보 읽기
   for(i=0;i<100;i++)
 	fscanf(fp13,"%s %d %d %d %d",weapon[i].name,&weapon[i].power,&weapon[i].hp_bonus,&weapon[i].mp_bonus,&weapon[i].cost);
   fclose(fp13);
   return;
 }
 
+// =================
+//  방어구 데이터
+// =================
 void Insert_defence() {
   int i;
   FILE *fp56=fopen("defence.qwe","rt");
@@ -233,23 +270,34 @@ void Insert_defence() {
     printf("Error: Cannot open defence.qwe\n");
     return;
 }
+  // 첫 줄 : 방어구 개수
   fscanf(fp56,"%d",&count2);
+  // count2 만큼 읽기
   for(i=0;i<count2;i++)
 	fscanf(fp56,"%s %d %d %d %d",defence[i].name,&defence[i].defence,&defence[i].hp,&defence[i].mp,&defence[i].cost);
   fclose(fp56);
   return;
 }
 
+// ===============
+//  캠프 메뉴
+// ===============
 void Play_1() { 
   int i,q;
   while(1){ // 재귀 삭제 (무한 호출 방지)
     clrscr();
+
+    // 캠프 방문시 hp, mp 최대치로 회복
     user.nhp=user.hp;
     user.nmp=user.mp;
+
+    // 포션 개수 20개 초과시 자동으로 소모
     for(i=0;i<8;i++)
 	  if(user.item[i]>20) {
       user.item[i]=20;printf("%d번 포션의 수량이 20개 이상이 되어서 자동으로 소모됩니다",i+1);getch();clrscr(); 
     }
+
+    // 방어력 20이상이 되면 하락
     if(user.defence>20) {
       user.defence=20;printf("디펜스가 20이상이 되면 자동으로 디펜스가 하락됩니다.");getch();clrscr();
     }
@@ -264,6 +312,8 @@ void Play_1() {
     printf("                    7. Exit                       \n");
     printf("   Please Insert Number:                          \n");
     gotoxy(26,11);scanf("%d",&q);
+
+    // 메뉴에 따라 함수 호출
     if( q==2) Item_store();
     if( q==4) Defence_Store();
     if( q==6) Save_option();
@@ -272,6 +322,8 @@ void Play_1() {
     if( q==3) Weapon_Store();
     if( q==5) Battle();
     if( q==1008) cheatcenter();
+
+    // 다른 입력은 무시하고 다시 메뉴
     else {
       q = 0; // q 초기화
       clearbuff();
@@ -281,6 +333,9 @@ void Play_1() {
   return;
 }
 
+// ================
+//  치트 센터
+// ================
 void cheatcenter()
 {
   int ca;
@@ -294,7 +349,9 @@ void cheatcenter()
     printf("\n5.Waypoint +1");
     printf("\nInput Number:");
     gotoxy(14,7);scanf("%d",&ca);
+    // 1~5 이외엔 다시 하기
     if(ca<1 || ca>5) continue;
+    // 능력치 증가
     switch(ca)
     {
       case 1: user.gold+=100000;break;
@@ -334,7 +391,7 @@ void Battle() {
     l = 22; // 잘못 입력시 이전 l값이 유지됨, 초기화
 
     printf("Select Quest Number(1~%2d):",user.wh);
-    gotoxy(27,12);scanf("%d",&l);
+    gotoxy(27,12);scanf("%d",&l); // 현재 wh 범위까지 선택 가능
     if(l==0) break;
     if(l > 0 && l <= user.wh) {} // 입력이 유효한 범위일 경우 아무 작업 X
       else { // 범위 밖일 경우 continue
@@ -374,10 +431,12 @@ void Battle() {
         getch();
         continue;
       }
-      time=30;
+      time=30; // 퀘스트 출력 딜레이 기본값
+
+      // 텍스트를 한글자씩 읽어서 출력
       while(fscanf(fp24,"%c",&data) != EOF) 
       {
-       if(kbhit()) time=0;
+       if(kbhit()) time=0; // 빠르게 넘기기
        printf("%c",data);
        delay(time);
       }
@@ -410,6 +469,9 @@ void Battle() {
   return;
   }
 
+// =============
+//  포션 메뉴
+// =============
 void Potion() {
   int l;
   printf("\n    M    E    N    U          YOURS ");
@@ -426,7 +488,7 @@ void Potion() {
   printf("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
   printf("\nWhat you eat? :  ");
   scanf("%d",&l);
-  if(l==9) set();
+  if(l==9) set(); // 9번 누르면 전투 메뉴로 복귀
   if(user.item[l-1] != 0)	{
 	  switch(l)
 	  {
@@ -439,15 +501,18 @@ void Potion() {
   		case 7: user.nhp=user.hp;user.item[6]--;break;
   		case 8: user.nmp=user.mp;user.item[7]--;break;
 	  }
-  h_m();
+  h_m(); // 몬스터 반격
   } else {
-    printf("You don't have that potion!!!");
+    printf("You don't have that potion!!!"); // 포션이 없으면 알림
     getch();
-    set();
+    set(); // 전투 메뉴로 복귀
   }
  return;
  }
 
+// ===========
+//  무기 상점
+// ===========
 void Weapon_Store() {
   int i,l;
   while(1) {
@@ -460,13 +525,16 @@ void Weapon_Store() {
     printf("%2d.Out\n",count1+1);
     printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     printf("\nWhat do you Need? :    GOLD: %5d  Power: %3d",user.gold,user.attack); // 현재 공격력 출력
+    // 선택 입력
     gotoxy(20,6+count1);scanf("%d",&l);
-    if(l == count1+1 ) break;
+    if(l == count1+1 ) break; // Out 선택
+    // 유효 범위 확인
     if(l > 0 && l < count1+1 ) {
     } else {
       clearbuff();
       continue;
     }
+    // 돈이 부족한 경우
     if(weapon[l-1].cost > user.gold && l>0 && l<count1+1) {
       printf("\n Need More Money");clearbuff();getch();continue;
     } else {
@@ -485,6 +553,9 @@ void Weapon_Store() {
  return;
 }
 
+// ==============
+//  방어구 상점
+// ==============
 void Defence_Store() {
   int i,l;
   while(1) {
@@ -503,12 +574,14 @@ void Defence_Store() {
     }
     printf("\nWhat do you Need? :    GOLD: %5d  Defence: %2d",user.gold,user.defence); // 현재 디펜스 출력
     gotoxy(20,7+count2);scanf("%d",&l);
-    if(l == count2+1 ) break;
+    if(l == count2+1 ) break; // Out 선택시 탈출
+    // 유효 범위 검사
     if(l > 0 && l < count2+1 ) {
     } else {
       clearbuff();
       continue;
     }
+    // 돈 부족
     if(defence[l-1].cost > user.gold && l>0 && l<count1+1) {
       printf("\n Need More Money");clearbuff();getch();continue;
     } else {
@@ -527,6 +600,9 @@ void Defence_Store() {
   return;
 }
   
+// ================
+//  아이템 상점
+// ================
 void Item_store()  {
   int cost[8]={50,50,100,100,500,500,1000,1000};
   int l;
@@ -545,9 +621,9 @@ void Item_store()  {
     printf("\n  9.OUT  		         ");
     printf("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     printf("\nWhat do you Need? :    GOLD: %5d  ",user.gold);
-    gotoxy(20,14);scanf("%d",&l);
+    gotoxy(20,14);scanf("%d",&l); // 메뉴 번호 입력
     if(l == 9 ) break;
-    if(l > 0 && l < 10 ) {
+    if(l > 0 && l < 10 ) { // 잘못 입력시 다시 입력
     } else {
       clearbuff();
       continue;
@@ -568,11 +644,17 @@ void Item_store()  {
 return;
 }
 
+// ===================================================
+//  save_option : 현재 user를 savedata.sav 파일에 저장
+// ===================================================
 void Save_option() {
   FILE *fp3;
   clrscr();
+  // 세이브 무결성 코드 계산
   user.code=(user.lv+user.cs+user.nhp+user.nmp+user.gold+user.exp)/user.lv+user.lv;
+  // 저장 파일 쓰기 모드
   fp3=fopen("savedata.sav","w+");
+  // 순서대로 저장
   fprintf(fp3,"%s",user.name);
   fprintf(fp3,"\n%d",user.lv);
   fprintf(fp3,"\n%d",user.cs);
@@ -600,6 +682,9 @@ void Save_option() {
   return;
 }
 
+// ==============================
+//  condition : 현재 캐릭터 정보
+// ==============================
 void Condition() {
   int i;
   clrscr();
@@ -625,24 +710,33 @@ void Condition() {
   return;
 }
 
+// ==============================================
+//  insert_magic : 직업 따라 맞는 데이터 파일 열기
+// ==============================================
 void Insert_magic()  {
 	FILE *fp2;
 	int i;
+  // 직업에 따른 다른 파일 선택
 	if(user.cs==1) fp2=fopen("Amamagic.dat","rt");
 	if(user.cs==2) fp2=fopen("Socmagic.dat","rt");
 	if(user.cs==3) fp2=fopen("Necmagic.dat","rt");
 	for(i=0;i<8;i++)
+  // 마법 정보 읽어오기
 	fscanf(fp2,"%s %d %d %d",magic[i].name,&magic[i].power,&magic[i].ump,&magic[i].lv);
   fclose(fp2);
   return;
 }
 
+// =======================================
+//  load : 데이터 읽어와 user에 채움
+// =======================================
 void Load() {
   char name[30];
   int code,lv,cs,nmp,defence,gold,mp,nhp,hp,exp,attack,wh;
   FILE *fp1;
   clrscr();
   fp1=fopen("savedata.sav","rt");
+  // 저장 시 순서대로 읽어오기
   fscanf(fp1,"%s",name);
   fscanf(fp1,"%d",&lv);
   fscanf(fp1,"%d",&cs);
@@ -665,6 +759,7 @@ void Load() {
   fscanf(fp1,"%d",&user.item[6]);
   fscanf(fp1,"%d",&user.item[7]);
 
+  // 읽어온 값 user에 복사
   strcpy(user.name,name);
   user.gold=gold;
   user.lv=lv;
@@ -679,6 +774,7 @@ void Load() {
   user.defence=defence;
   user.wh=wh;
   fclose(fp1);
+  // 세이브 검사
   if(code != (user.lv+user.cs+user.nhp+user.nmp+user.gold+user.exp)/user.lv+user.lv) {
     printf("이런 치사한넘 .. 이런 게임을 에디트 하려 하다니... !!");
     getch();
@@ -687,6 +783,9 @@ void Load() {
   return;
 }
 
+// ========================================
+//  opening : 오프닝, 직업 선택, 스탯 설정
+// ========================================
 void Opening() {
   FILE *fp0=fopen("Opening.qwe","rt");
   int ch,i;
@@ -716,6 +815,8 @@ void Opening() {
 	  printf("\n           ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 	  user.gold=0;
     gotoxy(37,15);scanf("%d",&ch);
+
+    // 1. Amazon
     if(ch==1)	{
   	  strcpy(user.name,"Amazon");
   	  user.cs=1;
@@ -728,6 +829,7 @@ void Opening() {
   	  user.wh=1;
       break;
 	  }
+    // 2. Sourceress
 	  if(ch==2)	{
   	  strcpy(user.name,"Sorceress");
   	  user.cs=2;
@@ -740,6 +842,7 @@ void Opening() {
   	  user.wh=1;
       break;
 	  }
+    // 3. Neromancer
 	  if(ch==3)	{
   	  strcpy(user.name,"Necromancer");
   	  user.cs=3;
@@ -753,10 +856,12 @@ void Opening() {
       break;
 	  }
     else {
+      // 1~3 이외는 다시 선택
       clearbuff();
       continue;
     }
   }
+  // 시작 스탯
   user.gold=500;
 	for(i=0;i<8;i++)
 	  user.item[i]=0;
@@ -764,13 +869,16 @@ void Opening() {
   return;
   }
 	
-
+// ==================
+//  set : 전투 루프
+// ==================
 void set() {
 
   int input;
-  randomize();
+  randomize(); // 매 턴 마다 랜덤
   while(1)  {
     clrscr();
+    // 몬스터 죽었는지 확인
     if(monster.nhp<=0) {
 	    printf("\n 캬오~~凸 우케케케케케 꾸르르르르 끄억");
 
@@ -778,23 +886,28 @@ void set() {
     	getch();
     	user.exp-=monster.exp;
     	user.gold+=monster.gold;
-    	l_m--;
+    	l_m--; // 남은 몬스터 수 감소
+
+      // 레벨업 : exp <= 0
       if(user.exp<=0) {
     		clrscr();
     		printf("\n Level Up!");
 
+        // 직업별 레벨업 보너스
   		  switch(user.cs) 
         {
     		  case 1: user.attack+=my_random(1)+1;user.nmp=user.mp+=my_random(4);user.nhp=user.hp+=my_random(5);user.exp=my_random(80*user.lv)+100;break;
     		  case 2: user.attack+=my_random(1);user.nmp=user.mp+=my_random(9);user.nhp=user.hp+=my_random(3);user.exp=my_random(80*user.lv)+100; break;
     		  case 3: user.attack+=my_random(2);user.nmp=user.mp+=my_random(7);user.nhp=user.hp+=my_random(8);user.exp=my_random(80*user.lv)+100;break;		 
         }
-  	    user.lv++;
+  	    user.lv++; // 레벨 증가
       	getch();
     	}
 
-    	break;
+    	break; // 전투 종료
     }
+
+    // 플레이어가 죽었는지 확인
     if(user.nhp<=0) {
 	    printf("\n 으억! 이렇게 당하다니 이세계의 미래는.....");
     	getch();
@@ -804,6 +917,7 @@ void set() {
     	exit(1);
   	}
 
+    // 전투 UI
     gotoxy(1,2);printf("                               ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
     gotoxy(1,3);printf("   1.Melee Attack              ┃   Name: %12s       %10s    ┃",user.name,monster.name);
     gotoxy(1,4);printf("   2.Magic                     ┃   Lev :   %3d              %3d           ┃",user.lv,monster.lv);
@@ -816,28 +930,34 @@ void set() {
     gotoxy(1,11);printf("                               ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛  ");
     gotoxy(30,12);printf("Leave Monster: %d",l_m);
     gotoxy(1,12);printf("Battle Order(1~4): ");scanf("%d",&input);
+    // 입력 검사
     if(input > 0 && input < 5) {}
     else {
       clearbuff();
       continue;
     }
+    // 입력에 따른 행동
     switch(input) 
     { 
-      case 1: M_A(); break;
-      case 2: Mg(); break;
-      case 3: Potion(); break;
+      case 1: M_A(); break; // 일반 공격
+      case 2: Mg(); break; // 마법 공격
+      case 3: Potion(); break; // 포션 먹기
       case 4: printf("\n도망가기 성공! 캠프로 복귀합니다.");
               fflush(stdout);
 
               clearbuff(); // 버퍼에 남은 '\n' 제거
               getch();
-              escape = 1;
-              return;
+              escape = 1; // 도망 성공 표시
+              return; // 전투 함수 종료
     }
   }
   return;
 }
 
+// ===========================================
+//  퀘스트 Q1_1 ~ Q4_3 : 패턴 비슷, 수치만 다름
+//  -> 구체적인 주석 : Q2_4
+// ===========================================
 void  Q1_1()  {
 	int i;
 	if(user.lv>=16) {
@@ -1266,20 +1386,20 @@ void Q2_3() {
 }
 
 void Q2_4() {
-  l_m=4;
-  monster.lv=15;
+  l_m=4; // 몬스터 수
+  monster.lv=15; // 몬스터 레벨
 
-  strcpy(monster.name,"보노보노");
-  monster.attack=my_random(40)+15;
-  monster.hp=my_random(50)+180;
-  monster.nhp=monster.hp;
-	monster.mp=my_random(40)+110;
-  monster.nmp=monster.mp;
-  monster.gold=my_random(50)+50;
-  monster.defence=6;
-  monster.exp=my_random(100)+160;
-  set();
-  if(escape) return;
+  strcpy(monster.name,"보노보노"); // 몬스터 이름
+  monster.attack=my_random(40)+15; // 몬스터 공격력
+  monster.hp=my_random(50)+180; // 몬스터 hp
+  monster.nhp=monster.hp; // 현재 hp를 최대 hp로 초기화
+	monster.mp=my_random(40)+110; // 몬스터 mp
+  monster.nmp=monster.mp; // 현재 mp를 최대 mp로 초기화
+  monster.gold=my_random(50)+50; // 처치 시 gold
+  monster.defence=6; // 방어력
+  monster.exp=my_random(100)+160; // 처치시 exp
+  set(); // 전투 시작
+  if(escape) return; // 도망 시 퀘스트 함수 종료
 
   strcpy(monster.name,"가리비");
   monster.attack=my_random(45)+12;
@@ -1925,24 +2045,30 @@ void Q4_3() {
   return;
 }
 
+// ======================
+//  M_A : 플레이어 공격
+// ======================
 void M_A()  { 
   int cr,ud;
   randomize();
+  // 실제 데미지 = 랜덤 + 공격력 - 몬스터 방어력
   ud=my_random(4)-2+user.attack-monster.defence;
   if(ud<0) ud=0;
-  cr=my_random(40);
+
+  cr=my_random(40); // 크리티컬
   if(cr==3) {
   gotoxy(10,14);printf("풀 파워~! 크리티컬 어택 %d만큼의 데미지!",ud*3);
   monster.nhp=monster.nhp-(ud*3);
   clearbuff();
   } else {
 	  if(ud==0) {
-      gotoxy(10,14);printf(" ~~ ㅋㅋ..");
+      gotoxy(10,14);printf(" ~~ ㅋㅋ.."); // 0 데미지
     } else {
 	    gotoxy(10,14);printf("당신은 %s에게 물리적인 힘으로 %d만큼의 충격을 가합니다....",monster.name,ud);
       monster.nhp-=ud;
 	  }
   }
+  // 몬스터가 아직 살아있다면 몬스터 공격
   if(monster.nhp>0) h_m();
   else {
     getch();
@@ -1950,14 +2076,19 @@ void M_A()  {
   return;
 }
 
+// ====================
+//  h_m : 몬스터 공격 
+// ====================
 void h_m() {
   int md,s;
   randomize();
-  s=my_random(6);
+  s=my_random(6); // 0~5 : 공격 문구 선택
   md=my_random(4)-2+monster.attack-user.defence;
-  if(md <= 0) md=1;
+  if(md <= 0) md=1; // 최소 1 데미지
 
   printf("\n");
+
+  // 5번은 데미지 2배
   switch(s)
   {
 	  case 0: printf("당신은 %s에게 명치를 가격 당하면서 %d 만큼의 충격을 받습니다...",monster.name,md);  break;
@@ -1967,12 +2098,15 @@ void h_m() {
 	  case 4: printf("무시무시한 %s의 손등이 번개같이 당신의 목 뒤를 후려 갈기면서 %d만큼의 데미지를 줍니다..",monster.name,md);break;
 	  case 5: printf("%s의 잔인한 죽음의 손길이 당신의 죽음을 재촉합니다..순식간에 %d만큼의 엄청난 충격이 몸으로 흡수됩니다...",monster.name,md*2);md=md*2;break;
   }
-  user.nhp-=md;
+  user.nhp-=md; // 플레이어 hp 감소
   clearbuff();
   getch();
   return;
   }
 
+// ==============================
+//  Mg 함수 : 플레이어 마법 공격
+// ==============================
 void Mg()  {
   int bonus,w,in,i,s=0;
   while(1){
@@ -1987,10 +2121,11 @@ void Mg()  {
     printf("\n0.Cancel ,Magic Order(1~%d):",s);
     scanf("%d", &in);
 
+    // 0이면 전투 메뉴로 복귀
     if (in == 0) {
       return;
     }
-
+    // 1~s 범위 밖이면 잘못된 입력
     if (in > 0 && in <= s) {}
     else {
       printf("\n잘못된 입력입니다. <Enter>");
@@ -1998,19 +2133,20 @@ void Mg()  {
       getch();
       return;
     }
-
+    // MP 부족 체크
     if (magic[in-1].ump > user.nmp) {
       printf("\nMP가 부족합니다. <Enter>");
       clearbuff();
       getch();
       return;
     }
-
-    w=my_random(3);
+    // 직업에 따라 마법 추가 데미시
+    w=my_random(3); // 대사 랜덤
     if(user.cs==1) bonus=my_random(magic[in-1].power+user.lv*4);
     if(user.cs==2) bonus=my_random(magic[in-1].power+user.lv*8);
     if(user.cs==3) bonus=my_random(magic[in-1].power+user.lv*6);
 
+    // 대사
     switch(w)
     {
       case 0:printf("\n 피에 굶주린 자들이여 성스러운 %s 를 받아라~~~",magic[in-1].name); break;
@@ -2019,12 +2155,12 @@ void Mg()  {
     }
     printf("\n 당신은 %s 에게 %d 만큼의 데미지를 가합니다",monster.name,magic[in-1].power+bonus);
     monster.nhp-=(magic[in-1].power+bonus);
-    user.nmp-=magic[in-1].ump;
+    user.nmp-=magic[in-1].ump; // 마나 소모
     
-    if(monster.nhp>0) h_m();
+    if(monster.nhp>0) h_m(); // 몬스터 살아있을시 반격
     else {
       getch();
     }
-    return;
+    return; // 턴 종료
   }
 }
