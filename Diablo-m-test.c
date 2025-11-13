@@ -2140,7 +2140,7 @@ void Mg()  {
       getch();
       return;
     }
-    // 직업에 따라 마법 추가 데미시
+    // 직업에 따라 마법 추가 데미지
     w=my_random(3); // 대사 랜덤
     if(user.cs==1) bonus=my_random(magic[in-1].power+user.lv*4);
     if(user.cs==2) bonus=my_random(magic[in-1].power+user.lv*8);
