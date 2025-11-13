@@ -736,6 +736,13 @@ void Load() {
   FILE *fp1;
   clrscr();
   fp1=fopen("savedata.sav","rt");
+
+  if(fp1 == NULL) { // savedata 파일 없을 시 오류 메시지 출력, 종료
+        printf("\n저장된 게임 파일(savedata.sav)을 찾을 수 없습니다.\n게임을 종료합니다. <Enter>");
+        clearbuff();
+        getch();
+        exit(1);
+  }
   // 저장 시 순서대로 읽어오기
   fscanf(fp1,"%s",name);
   fscanf(fp1,"%d",&lv);
@@ -2059,7 +2066,6 @@ void M_A()  {
   if(cr==3) {
   gotoxy(10,14);printf("풀 파워~! 크리티컬 어택 %d만큼의 데미지!",ud*3);
   monster.nhp=monster.nhp-(ud*3);
-  clearbuff();
   } else {
 	  if(ud==0) {
       gotoxy(10,14);printf(" ~~ ㅋㅋ.."); // 0 데미지
@@ -2071,6 +2077,7 @@ void M_A()  {
   // 몬스터가 아직 살아있다면 몬스터 공격
   if(monster.nhp>0) h_m();
   else {
+    clearbuff();
     getch();
   }
   return;
