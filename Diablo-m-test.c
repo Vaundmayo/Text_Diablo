@@ -488,7 +488,7 @@ void Potion() {
   printf("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
   printf("\nWhat you eat? :  ");
   scanf("%d",&l);
-  if(l==9) set(); // 9번 누르면 전투 메뉴로 복귀
+  if(l==9) return; // 9번 누르면 전투 메뉴로 복귀
   if(user.item[l-1] != 0)	{
 	  switch(l)
 	  {
@@ -625,6 +625,7 @@ void Item_store()  {
     if(l == 9 ) break;
     if(l > 0 && l < 10 ) { // 잘못 입력시 다시 입력
     } else {
+      l = 0;
       clearbuff();
       continue;
     }
@@ -2137,6 +2138,7 @@ void Mg()  {
     // 1~s 범위 밖이면 잘못된 입력
     if (in > 0 && in <= s) {}
     else {
+      in = -1; // 잘못된 입력
       printf("\n잘못된 입력입니다. <Enter>");
       clearbuff();
       getch();
@@ -2144,6 +2146,7 @@ void Mg()  {
     }
     // MP 부족 체크
     if (magic[in-1].ump > user.nmp) {
+      in = -1; // 잘못된 입력
       printf("\nMP가 부족합니다. <Enter>");
       clearbuff();
       getch();
