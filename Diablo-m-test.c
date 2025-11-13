@@ -6,14 +6,14 @@
 #include <time.h>
 
 // Windows 환경 감지
-#ifdef _WIN32
+#ifdef _WIN32 // WIN32 매크로가 정의됨 -> 윈도우 환경일때 정의됨
     #include <windows.h> // Sleep 등
     #include <conio.h> // getch(), kbhit() 등 입력 함수
-#else
+#else // WIN32 매크로가 정의되지 않음 -> Linux/Mac 환경일때 정의됨
     #include <unistd.h>
     #include <termios.h>
     #include <fcntl.h>
-#endif
+#endif // 블록의 끝
 
 // =============
 //  함수 선언
@@ -36,7 +36,7 @@ void clearbuff(); // 입력 버퍼 비우기(잘못된 입력 처리)
 // ==================
 
 // Windows 전용 함수 대체
-#ifdef _WIN32
+#ifdef _WIN32 // Windows 환경일때
     // Windows용 화면 클리어
     void clrscr() {
         system("cls");
